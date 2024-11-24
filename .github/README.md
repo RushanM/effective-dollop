@@ -135,7 +135,7 @@
 
 ## Внешние ссылки
 
-Список модов и сборок, затрагиваемых проектом, а также дополнений для его набора ресурсов, [**содержится на «Google Таблицах»**](https://docs.google.com/spreadsheets/d/1UAp3EIBpwFoXhnHU1R19cN1ptDPLvTPn5Id8-tK_cik/edit?gid=795310021#gid=795310021).
+Список модов и сборок, затрагиваемых проектом, а также дополнений для его набора ресурсов, [**содержится на «Google Таблицах»**](https://docs.google.com/spreadsheets/d/1RvozWJU5MYusAiJiMfODWA1t-bj2jhIj0FZCY5UU28k/edit?usp=sharing).
 
 <div align="center">
 <a href="https://modrinth.com/resourcepack/mods-ru">
