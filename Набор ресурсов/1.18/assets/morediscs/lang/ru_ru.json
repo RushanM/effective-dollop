@@ -225,5 +225,6 @@
     "item.morediscs.music_disc_yarona": "Пластинка",
     "item.morediscs.music_disc_zayz.desc": "Schakavun - Zayz",
     "item.morediscs.music_disc_zayz": "Пластинка",
-    "itemGroup.morediscs.music_disc_group": "Music Discs"
+    "itemGroup.morediscs.music_disc_group": "Music Discs",
+    "itemGroup.music_disc_group": "Music Discs"
 }

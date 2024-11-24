@@ -1,4 +1,5 @@
 {
+
     "item.morediscs.music_disc_42.desc": "Redstonian [Emboar] - 42",
     "item.morediscs.music_disc_42": "Пластинка",
     "item.morediscs.music_disc_activate.desc": "Kaz Yumayui - Activate",
@@ -225,5 +226,6 @@
     "item.morediscs.music_disc_yarona": "Пластинка",
     "item.morediscs.music_disc_zayz.desc": "Schakavun - Zayz",
     "item.morediscs.music_disc_zayz": "Пластинка",
-    "itemGroup.morediscs.music_disc_group": "Music Discs"
+    "itemGroup.morediscs.music_disc_group": "Music Discs",
+    "itemGroup.music_disc_group": "Music Discs"
 }
