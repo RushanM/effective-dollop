@@ -14,7 +14,7 @@
  "subtitle.mcwwindows.window_open": "Открытие окна",
  "mcwwindows.hammer.desc": "Нажмите ПКМ по окну, чтобы изменить его форму",
  "mcwwindows.key.desc": "Нажмите ПКМ по окну, чтобы заблокировать его",
- "mcwwindows.crafting.desc": "Ингредиент для крафта",
+ "mcwwindows.crafting.desc": "Ингредиент для создания",
  "block.mcwwindows.oak_window": "Масштабируемое дубовое окно",
  "block.mcwwindows.spruce_window": "Масштабируемое еловое окно",
  "block.mcwwindows.birch_window": "Масштабируемое берёзовое окно",
