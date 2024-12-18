@@ -1,6 +1,7 @@
 {
     "gui.xaero_armour_status": "Состояние брони",
-    "gui.xaero_armour_status_settings": "Настройки состояния брони"
+    "gui.xaero_armour_status_settings": "Настройки состояния брони",
+    "gui.xaero_armour_status_settings": "Настройки состояния брони",
     "gui.xaero_miscellaneous": "Разное",
     "gui.xaero_notifications": "Уведомления"
 }
