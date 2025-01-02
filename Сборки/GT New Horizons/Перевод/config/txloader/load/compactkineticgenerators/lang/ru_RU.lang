@@ -7,15 +7,15 @@ itemGroup.compactkineticgenerators=Compact Kinetic Generators
 tile.ckg:BlockCkg.name=Кинетический ветрогенератор (уровень ЭН)
 tile.ckg:BlockCkg1.name=Кинетический ветрогенератор (уровень БН)
 tile.ckg:BlockCkg2.name=Кинетический ветрогенератор (уровень ЛН)
-tile.ckg:BlockCkg3.name=Кинетический ветрогенератор (уровень НМНТ)
+tile.ckg:BlockCkg3.name=Кинетический ветрогенератор (уровень МНТ)
 tile.ckg:BlockCkg4.name=Кинетический гидрогенератор (уровень ЭН)
 tile.ckg:BlockCkg5.name=Кинетический гидрогенератор (уровень БН)
 tile.ckg:BlockCkg6.name=Кинетический гидрогенератор (уровень ЛН)
-tile.ckg:BlockCkg7.name=Кинетический гидрогенератор (уровень НМНТ)
+tile.ckg:BlockCkg7.name=Кинетический гидрогенератор (уровень МНТ)
 tile.ckg:BlockCkg8.name=Кинетический генератор (уровень ЭН)
 tile.ckg:BlockCkg9.name=Кинетический генератор (уровень БН)
 tile.ckg:BlockCkg10.name=Кинетический генератор (уровень ЛН)
-tile.ckg:BlockCkg11.name=Кинетический генератор (уровень НМНТ)
+tile.ckg:BlockCkg11.name=Кинетический генератор (уровень МНТ)
 
 # Предметы
 
