@@ -1411,9 +1411,9 @@ tile.witchery:wolftrap.name=Волчий капкан
 witchery.nosleep.wolf=Вы не можете спать в обличии волка!
 witchery.nosleep.resized=Вы не можете спать! Ваш рост мешает!
 
-witchery.werewolf.infection=Кажется, Ваше чувство обоняния стало сильнее...
+witchery.werewolf.infection=Кажется, ваше чувство обоняния стало сильнее...
 witchery.rite.wolfcurse.alreadyactive=Эта цель уже находится под проклятием!
-witchery.rite.wolfcurse.nothuman=Ваша цель - не простой житель или игрок!
+witchery.rite.wolfcurse.nothuman=Ваша цель — не простой житель или игрок!
 witchery.rite.wolfcurse.notactive=Цель не находится под проклятием.
 witchery.rite.wolfcurse.requiresfullmoon=Ритуал необходимо проводить в полнолуние!
 witchery.rite.wolfcurse.requirescat=Необходим кот-компаньон.
