@@ -163,7 +163,7 @@
                         "text": ", поэтому стоит выбрать что-то, что устранит слабые стороны материала, или усилит его сильные стороны.\n\nКонфликтующие аффинитеты внутри конструкции не имеют значения.\n\nКаждое очко аффинитета также даёт конструкции ограниченный иммунитет к типам урона, связанным с этим аффинитетом, позволяя ей поглощать 1—2 сердца урона за каждое очко при атаке."
                     }
                 ],
-                "type": "text"
+                "type": "text",
             },
             {
                 "json": [
@@ -5566,11 +5566,11 @@
                         "text": "force my target to start drowning"
                     },
                     {
-                        "text": ". \n\nTheir breath is crushed out of them, though if they can they will just immediately take another breath, and if they are already out of breath, then I can…ahem…expedite the process. \n\nI can only imagine the effectiveness if they are actively holding their breath, or if I can hold them underwater somehow. \n\nNaturally this won't have any detrimental effect on things that can already breathe underwater or things that don't need to breathe."
+                        "text": ". \n\nTheir breath is crushed out of them, though if they can they will just immediately take another breath, and if they are already out of breath, then I can...ahem...expedite the process. \n\nI can only imagine the effectiveness if they are actively holding their breath, or if I can hold them underwater somehow. \n\nNaturally this won't have any detrimental effect on things that can already breathe underwater or things that don't need to breathe."
                     }
                 ],
                 "type": "text",
-                "value": "I've studied closely how certain fish breathe, and how water interacts with things in water.  I've figured out how to use this to force my target to start drowning.  Their breath is crushed out of them, though if they can they will just immediately take another breath, and if they are already out of breath, then I can…ahem…expedite the process.\n\nI can only imagine the effectiveness if they are actively holding their breath, or if I can hold them underwater somehow.\n\nNaturally this won't have any detrimental effect on things that can already breathe underwater or things that don't need to breathe."
+                "value": "I've studied closely how certain fish breathe, and how water interacts with things in water.  I've figured out how to use this to force my target to start drowning.  Their breath is crushed out of them, though if they can they will just immediately take another breath, and if they are already out of breath, then I can...ahem...expedite the process.\n\nI can only imagine the effectiveness if they are actively holding their breath, or if I can hold them underwater somehow.\n\nNaturally this won't have any detrimental effect on things that can already breathe underwater or things that don't need to breathe."
             }
         ]
     },
@@ -5631,7 +5631,7 @@
                         "text": "blocks to  float upwards into the sky"
                     },
                     {
-                        "text": " for a short duration before locking in place.\n\n…because what self-respecting wizard *wouldn't* want a floating island in the sky?"
+                        "text": " for a short duration before locking in place.\n\n...because what self-respecting wizard *wouldn't* want a floating island in the sky?"
                     }
                 ],
                 "type": "text",
@@ -6045,7 +6045,7 @@
                         "text": "brittle against smaller attacks"
                     },
                     {
-                        "text": ", much like a diamond: extremely hard but will shatter if struck just right. \n\nAll incoming attacks cannot do more than 4 damage (2 hearts) to me, but anything that does less will be increased to 4 damage. This might be a good candidate for shorter durations, and I can see several offensive possibilities to apply this to my target as well…\n\nThis spell part can only be crafted by those who have aligned themselves with the "
+                        "text": ", much like a diamond: extremely hard but will shatter if struck just right. \n\nAll incoming attacks cannot do more than 4 damage (2 hearts) to me, but anything that does less will be increased to 4 damage. This might be a good candidate for shorter durations, and I can see several offensive possibilities to apply this to my target as well...\n\nThis spell part can only be crafted by those who have aligned themselves with the "
                     },
                     {
                         "color": "dark_gray",
@@ -6056,7 +6056,7 @@
                     }
                 ],
                 "type": "text",
-                "value": "This powerful magic I've discovered seems to be somewhat of a double-edged sword.\n\nIt greatly fortifies me against powerful blows, but makes my defense much more brittle against smaller attacks, much like a diamond: extremely hard but will shatter if struck just right.\n\nAll incoming attacks cannot do more than 4 damage (2 hearts) to me, but anything that does less will be increased to 4 damage.\n\nThis might be a good candidate for shorter durations, and I can see several offensive possibilities to apply this to my target as well…"
+                "value": "This powerful magic I've discovered seems to be somewhat of a double-edged sword.\n\nIt greatly fortifies me against powerful blows, but makes my defense much more brittle against smaller attacks, much like a diamond: extremely hard but will shatter if struck just right.\n\nAll incoming attacks cannot do more than 4 damage (2 hearts) to me, but anything that does less will be increased to 4 damage.\n\nThis might be a good candidate for shorter durations, and I can see several offensive possibilities to apply this to my target as well..."
             }
         ]
     },
@@ -6346,11 +6346,11 @@
                         "text": "increase my movement speed"
                     },
                     {
-                        "text": ". It's hard to explain, but it feels like a surge of extreme motivation, like someone lit a fire under my…oh."
+                        "text": ". It's hard to explain, but it feels like a surge of extreme motivation, like someone lit a fire under my...oh."
                     }
                 ],
                 "type": "text",
-                "value": "I have figured out how to use the power of fire to increase my speed.  It's hard to explain, but it feels like a surge of extreme motivation, like someone lit a fire under my…oh."
+                "value": "I have figured out how to use the power of fire to increase my speed.  It's hard to explain, but it feels like a surge of extreme motivation, like someone lit a fire under my...oh."
             }
         ]
     },
@@ -13336,7 +13336,7 @@
                     },
                     {
                         "color": "black",
-                        "text": "The only saving grace to be found lies in the magical link between their eye and their target. Looking directly into the eye seems to stun the Chatterer…but that becomes impossible to do when blinded. "
+                        "text": "The only saving grace to be found lies in the magical link between their eye and their target. Looking directly into the eye seems to stun the Chatterer...but that becomes impossible to do when blinded. "
                     },
                     {
                         "text": "\n\n"
@@ -15629,7 +15629,7 @@
                         "text": "Aum"
                     },
                     {
-                        "text": ", that can be used without Vinteum, as it already contains easily accessible healing properties of its own. \n\nApplying this mixture to the body and holding it in place causes a slow release of healing magic that can restore even the most serious of wounds… if given enough time. \n\nUnfortunately, "
+                        "text": ", that can be used without Vinteum, as it already contains easily accessible healing properties of its own. \n\nApplying this mixture to the body and holding it in place causes a slow release of healing magic that can restore even the most serious of wounds... if given enough time. \n\nUnfortunately, "
                     },
                     {
                         "color": "dark_purple",
@@ -15640,7 +15640,7 @@
                     }
                 ],
                 "type": "text",
-                "value": "When combined with a paste made of certain plants and flowers, Vinteum appears to bring out miraculous wound-cleaning properties.\n\nThere is one specific flower, Aum, that can be used without Vinteum, as it already contains easily accessible healing properties of its own.\n\nApplying this mixture to the body and holding it in place causes a slow release of healing magic that can restore even the most serious of wounds… if given enough time.\n\nUnfortunately, any upset to the body (like sudden movements or being injured) disrupts the slow release of magical healing from the poultice and renders it useless."
+                "value": "When combined with a paste made of certain plants and flowers, Vinteum appears to bring out miraculous wound-cleaning properties.\n\nThere is one specific flower, Aum, that can be used without Vinteum, as it already contains easily accessible healing properties of its own.\n\nApplying this mixture to the body and holding it in place causes a slow release of healing magic that can restore even the most serious of wounds... if given enough time.\n\nUnfortunately, any upset to the body (like sudden movements or being injured) disrupts the slow release of magical healing from the poultice and renders it useless."
             }
         ]
     },
@@ -21289,7 +21289,7 @@
                         "text": "no reagents are removed and that the chalk runes remain intact"
                     },
                     {
-                        "text": ", lest I encounter more…"
+                        "text": ", lest I encounter more..."
                     },
                     {
                         "color": "dark_purple",
@@ -21300,7 +21300,7 @@
                     }
                 ],
                 "type": "text",
-                "value": "The ritual will power up and then begin drawing in the reagents.  Take care to ensure that no reagents are removed and that the chalk runes remain intact, lest you encounter more…explosive results.\n\nNot all rituals require reagents."
+                "value": "The ritual will power up and then begin drawing in the reagents.  Take care to ensure that no reagents are removed and that the chalk runes remain intact, lest you encounter more...explosive results.\n\nNot all rituals require reagents."
             },
             {
                 "type": "title",
@@ -22550,11 +22550,11 @@
                         "text": "change these values"
                     },
                     {
-                        "text": ". \n\nWhen my spell is all written out the way I want it, I'll need to give the arcane ash time to imbue the ink into an actual spell recipe and allow the ritual that follows to create the actual spell. \n\nLuckily the table I have in mind will have a spot to do just that. …I do wonder though if there are ways to make more complicated spells, such as ones that can do multiple things in a single cast? \n\nThere must be."
+                        "text": ". \n\nWhen my spell is all written out the way I want it, I'll need to give the arcane ash time to imbue the ink into an actual spell recipe and allow the ritual that follows to create the actual spell. \n\nLuckily the table I have in mind will have a spot to do just that. ...I do wonder though if there are ways to make more complicated spells, such as ones that can do multiple things in a single cast? \n\nThere must be."
                     }
                 ],
                 "type": "text",
-                "value": "I'll need to set up a proper workspace for me to get my spell ideas from my head onto paper.\n\nA table with all the proper places to store everything, paper that is designed to accept magical script, and the proper ink.  I'll need some arcane ash as well.\n\nOnce I've got all that together, I can get started.  I'll need to pick a way to shape the spell.  This will be the way it targets the world.  I'm sure there are several shapes that I can learn.\n\nAfter that, I will need to pick a component so that the spell actually does something.\n\nThat alone is enough to make a basic spell.  However, I can think of several aspects of spells that could be modified.  I'll need to add in modifiers to the equation of the spell so that I can change these values.\n\nWhen my spell is all written out the way I want it, I'll need to give the arcane ash time to imbue the ink into an actual spell recipe and allow the ritual that follows to create the actual spell.  Luckily the table I have in mind will have a spot to do just that.\n\n…I do wonder though if there are ways to make more complicated spells, such as ones that can do multiple things in a single cast?  There must be."
+                "value": "I'll need to set up a proper workspace for me to get my spell ideas from my head onto paper.\n\nA table with all the proper places to store everything, paper that is designed to accept magical script, and the proper ink.  I'll need some arcane ash as well.\n\nOnce I've got all that together, I can get started.  I'll need to pick a way to shape the spell.  This will be the way it targets the world.  I'm sure there are several shapes that I can learn.\n\nAfter that, I will need to pick a component so that the spell actually does something.\n\nThat alone is enough to make a basic spell.  However, I can think of several aspects of spells that could be modified.  I'll need to add in modifiers to the equation of the spell so that I can change these values.\n\nWhen my spell is all written out the way I want it, I'll need to give the arcane ash time to imbue the ink into an actual spell recipe and allow the ritual that follows to create the actual spell.  Luckily the table I have in mind will have a spot to do just that.\n\n...I do wonder though if there are ways to make more complicated spells, such as ones that can do multiple things in a single cast?  There must be."
             }
         ]
     },
@@ -23351,7 +23351,7 @@
                         "text": "any components I put into the spell will be applied to the summon"
                     },
                     {
-                        "text": ", so I should be aware of the implications…and the possibilities."
+                        "text": ", so I should be aware of the implications...and the possibilities."
                     },
                     {
                         "italic": true,
@@ -23368,7 +23368,7 @@
                     }
                 ],
                 "type": "text",
-                "value": "I can make use of the arcane arts to summon creatures to defend me.  First, I will need to fill a Crystal Phylactery with souls from the creature I want to summon.  This is done simply by having it in my pack when I kill them (though to initially set the creature type of the phylactery, it must be held in one of my hands when the creature is killed - being in my pack isn't enough).  Then, I hold the spell in one hand, and the phylactery in the other.  That will determine what I summon.\n\nIt's also worth noting that any components I put into the spell will be applied to the creature when it is summoned, so I should be aware of the implications…and the possibilities."
+                "value": "I can make use of the arcane arts to summon creatures to defend me.  First, I will need to fill a Crystal Phylactery with souls from the creature I want to summon.  This is done simply by having it in my pack when I kill them (though to initially set the creature type of the phylactery, it must be held in one of my hands when the creature is killed - being in my pack isn't enough).  Then, I hold the spell in one hand, and the phylactery in the other.  That will determine what I summon.\n\nIt's also worth noting that any components I put into the spell will be applied to the creature when it is summoned, so I should be aware of the implications...and the possibilities."
             }
         ]
     },

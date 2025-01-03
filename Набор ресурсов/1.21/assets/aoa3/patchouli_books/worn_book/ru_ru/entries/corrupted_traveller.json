@@ -1,0 +1,19 @@
+{
+    "category": "aoa3:journal",
+    "icon": "aoa3:corrupted_traveller_spawn_egg",
+    "name": "Проклятый путешественник",
+    "pages": [{
+            "type": "patchouli:link",
+            "link_text": "Вики по AOA",
+            "text": "Посетите вики по $(aoa), чтобы узнать больше о $(thing)проклятом путешественнике$()",
+            "title": "Ссылка на вики",
+            "url": ""
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "aoa3:corrupted_traveller",
+            "text": ""
+        }
+    ],
+    "sortnum": 1
+}

@@ -7,7 +7,7 @@
     "catalogue.gui.internal_libraries": "Показать внутренние библиотеки",
     "catalogue.gui.licenses": "Лицензия(-и): %s",
     "catalogue.gui.mod_list": "Моды",
-    "catalogue.gui.no_selection": "Мод не выбран…",
+    "catalogue.gui.no_selection": "Мод не выбран...",
     "catalogue.gui.open_mods_folder": "Открыть папку с модами",
     "catalogue.gui.search": "Поиск",
     "catalogue.gui.update_available": "Вышло обновление: %s",
