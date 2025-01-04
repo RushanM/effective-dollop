@@ -379,7 +379,7 @@
 * * [AppleSkin](https://modrinth.com/mod/appleskin);
 * * [Dark Mode Everywhere](https://modrinth.com/mod/dark-mode-everywhere);
 * [**ggleb2**](https://github.com/ggleb2) и [**Western01**](https://github.com/marisathewitch): сделали полезные указания;
-* [**aBIank**](https://github.com/SillyAsriel): участвовал в принятии решений, перевёл некоторые квесты Monifactory;
+* [**Бланк**](https://github.com/SillyAsriel): участвовал в принятии решений, перевёл некоторые квесты Monifactory;
 * [**TheAnaxMan**](https://github.com/TheAnaxMan): предложил переводы:;
 * * [All the Fabric 6](https://github.com/RushanM/Minecraft-Mods-Russian-Translation/tree/alpha/%D0%A1%D0%B1%D0%BE%D1%80%D0%BA%D0%B8/All%20of%20Fabric%206);
 * * [All the Ores](https://www.curseforge.com/minecraft/mc-mods/ato);
@@ -402,12 +402,13 @@
 * * [MrCrayfish's Furniture Mod (Legacy)](https://www.curseforge.com/minecraft/mc-mods/mrcrayfish-furniture-mod);
 * * [MrCrayfish's Furniture Mod: Refurbished](https://www.curseforge.com/minecraft/mc-mods/refurbished-furniture);
 * * [SecurityCraft](https://modrinth.com/mod/security-craft);
-* [**ySh**](https://github.com/INe6dy): предложил переводы модов:
+* [**Юш**](https://github.com/INe6dy): предложил переводы модов:
 * * [Chipped](https://modrinth.com/mod/chipped);
 * * [Malum](https://modrinth.com/mod/malum);
-* [**xaxilin**](https://steamcommunity.com/id/xaxilin/): несколько раз помогал в определении переводов и предложил переводы:
+* [**Хахилин**](https://steamcommunity.com/id/xaxilin/): несколько раз помогал в определении переводов и предложил переводы:
 * * [Accidentally Circumstantial Events](https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/minecraft-mods/2356179-1-7-10-forge-accidentally-circumstantial-events);
 * * [Alex's Tamables](https://www.curseforge.com/minecraft/mc-mods/alexs-tamables);
+* * [alexbegt's Iron Chests](https://modrinth.com/mod/iron-chests);
 * * [Ancient Curses](https://www.curseforge.com/minecraft/mc-mods/ancient-curses);
 * * [Bartering Station](https://modrinth.com/mod/bartering-station);
 * * [Better MC 4](https://www.curseforge.com/minecraft/modpacks/better-mc-forge-bmc4);
@@ -421,7 +422,6 @@
 * * [FTB Library](https://www.curseforge.com/minecraft/mc-mods/ftb-library-forge);
 * * [Game Discs](https://www.curseforge.com/minecraft/mc-mods/game-discs);
 * * [Geckolib](https://modrinth.com/mod/geckolib);
-* * [Iron Chests](https://modrinth.com/mod/cyberanner-ironchest);
 * * [Iron Shulker Boxes](https://modrinth.com/mod/iron-shulker-boxes);
 * * [Jade](https://modrinth.com/mod/jade);
 * * [L_Ender's Cataclysm](https://modrinth.com/mod/l_enders-cataclysm);
@@ -436,7 +436,12 @@
 * * [Stalwart Dungeons](https://modrinth.com/mod/stalwart-dungeons);
 * * [Tips](https://modrinth.com/mod/tips);
 * [**gri3229**](https://github.com/gri3229): предложил перевод мода [Industrial Foregoing](https://modrinth.com/mod/industrial-foregoing);
-* [**Quinella**](https://github.com/RRimmer): предложил перевод мода [FTB Quests](https://www.curseforge.com/minecraft/mc-mods/ftb-quests-fabric);
+* [**Quinella**](https://github.com/RRimmer): предложил перевод модов:
+* * [FTB Quests (Fabric)](https://www.curseforge.com/minecraft/mc-mods/ftb-quests-fabric);
+* * [Zenith](https://modrinth.com/mod/zenith);
+* [**YooGoose**](https://github.com/RRimmer): предложил перевод модов:
+* * [Zenith Attributes](https://modrinth.com/mod/zenith-attributes);
+* * [Zenith](https://modrinth.com/mod/zenith);
 * [**Nord_Act**](https://github.com/NordAct): помогла с API;
 * [**devin**](https://github.com/intergrav): создал дизайн [кнопок](https://github.com/intergrav/devins-badges), используемых в этом ридми-файле.
 
@@ -446,9 +451,9 @@
 
 Есть личная просьба, предложение или любая другая причина обратиться лично ко мне? Вы можете написать мне в одной из этих сетей:
 
-* ВКонтакте: **`deflecta`**;
-* Discord: **`deflecta`**;
-* Telegram: **`RMKHTDNV`**.
+* [ВКонтакте](https://vk.com/deflecta),
+* Дискорд: **`deflecta`**,
+* Телеграм: **`RMKHTDNV`**.
 
 А также у проекта появились [канал](http://t.me/mcmodsru) и [группа](http://t.me/mcmodsrugroup) в Telegram!
 
@@ -458,9 +463,9 @@
 
 Также вы можете поддержать меня материально по следующим ссылкам:
 
-* [Boosty](https://boosty.to/rushanm);
-* [VK Pay](https://vk.me/moneysend/deflecta);
-* [Donation Alerts](https://www.donationalerts.com/r/deflecta);
-* [ЮMoney](https://yoomoney.ru/to/410015215253910).
+* [ВК-Пэй](https://vk.me/moneysend/deflecta),
+* [Бусти](https://boosty.to/rushanm),
+* [Донейшн-алёртс](https://www.donationalerts.com/r/deflecta),
+* [Юмани](https://yoomoney.ru/to/410015215253910).
 
 Буду благодарен за каждый рубль!
