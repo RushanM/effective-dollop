@@ -260,7 +260,7 @@ async function getModChanges(changedFiles, sheets) {
             const parts = decodedFilePath.split('/');
             const gameVer = parts[1];
             const modId = parts[3];
-            const action = file.status.startsWith('A') ? 'Добавлен' : 'Изменён';
+            const action = file.status.startsWith('A') ? 'добавлен' : 'изменён';
 
             const modInfo = await getModInfoFromSheet(modId, gameVer, sheets);
             if (modInfo) {
@@ -289,10 +289,10 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     let description = `Это ${nextTagInfo.alphaNum}-я альфа-версия всех переводов проекта.\n\n`;
 
     if (lastTag && /^dev\d+$/.test(lastTag)) {
-        description += `Пререлизы были упразднены! Теперь пререлизы зовутся альфами. Про то, как теперь выходят ранние версии проекта, можете прочитать [здесь](https://github.com/RushanM/Minecraft-Mods-Russian-Translation).\n\n`;
+        description += `Пререлизы были упразднены! Теперь пререлизы зовутся альфами. Про то, как теперь выходят ранние версии проекта, можете прочитать [здесь](https://github.com/RushanM/Minecraft-Mods-Russian-Translation/blob/beta/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%98%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B2%D1%8B%D0%BF%D1%83%D1%81%D0%BA%D0%BE%D0%B2.md).\n\n`;
     } else {
         // Стандартный текст
-        description += `Про то, как выходят ранние версии проекта, можете прочитать [здесь](https://github.com/RushanM/Minecraft-Mods-Russian-Translation).\n\n`;
+        description += `Про то, как выходят ранние версии проекта, можете прочитать [здесь](https://github.com/RushanM/Minecraft-Mods-Russian-Translation/blob/beta/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%98%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B2%D1%8B%D0%BF%D1%83%D1%81%D0%BA%D0%BE%D0%B2.md).\n\n`;
     }
 
     // Получить изменение модов + новые версии
@@ -302,7 +302,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
 
     // Добавление информации о новых версиях Minecraft (pack.mcmeta добавлен)
     newGameVersions.forEach(gameVer => {
-        allChanges.push(`Начат перевод модов для Minecraft ${gameVer}.x`);
+        allChanges.push(`начат перевод модов для Minecraft ${gameVer}.x`);
     });
 
     // Группируем modChanges по «action», «name», «url»
@@ -345,7 +345,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     });
 
     // Для каждой группы выводим одну строку:
-    // * Изменён перевод мода [name](url) на Minecraft 1.18.x — 1.21.x
+    // * изменён перевод мода [name](url) на Minecraft 1.18.x — 1.21.x
     for (const group of groupedList) {
         const { action, name, url, versions } = group;
         if (versions.length === 1) {
