@@ -1,0 +1,15 @@
+{
+    "pack": {
+        "description": {
+            "fallback": "Русифицирует моды и улучшает их перевод",
+            "translate": "minecraft.resource_pack.modsru"
+        },
+        "name": {
+            "fallback": "Русский перевод модов",
+            "translate": "minecraft.resource_pack.modsru.name"
+        },
+        "pack_format": 3,
+        "автор": "Дефлекта",
+        "версия": "1.10-1"
+    }
+}
