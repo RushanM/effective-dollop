@@ -214,7 +214,7 @@
   "itemGroup.farmersdelight": "Farmer's Delight",
 
   "farmersdelight.container.recipe_book.cookable": "Доступно к готовке",
-  "farmersdelight.container.cooking_pot": "Кухонный котел",
+  "farmersdelight.container.cooking_pot": "Кухонный котёл",
   "farmersdelight.container.cooking_pot.served_on": "Подаётся: %s",
   "farmersdelight.container.cooking_pot.not_heated": "Нужен нагрев снизу",
   "farmersdelight.container.cooking_pot.heated": "Нагрето",

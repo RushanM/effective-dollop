@@ -154,7 +154,7 @@
   "farmersdelight.block.skillet.invalid_item": "Это нельзя приготовить...",
   "farmersdelight.container.basket": "Корзина",
   "farmersdelight.container.cabinet": "Кладовая",
-  "farmersdelight.container.cooking_pot": "Кухонный котел",
+  "farmersdelight.container.cooking_pot": "Кухонный котёл",
   "farmersdelight.container.cooking_pot.heated": "Нагрето",
   "farmersdelight.container.cooking_pot.not_heated": "Нужен нагрев снизу",
   "farmersdelight.container.cooking_pot.served_on": "Подаётся: %s",
