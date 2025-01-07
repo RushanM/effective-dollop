@@ -162,20 +162,20 @@ wg.gui.noFeathersToMigrate=У вас нет предметов, необходи
 
 wg.desc.noGlide=Планирование отключено
 
-wg.gui.visSize=Емкость Вис
+wg.gui.visSize=Ёмкость для визов
 wg.gui.shiftForAspectList=§7Удерживать §aShift§7 для списка аспектов§r
 wg.gui.activeGem=Активный самоцвет
 wg.gui.passiveGem=Пассивный самоцвет
 wg.chat.gem.shatter=Ваш Наполненный самоцвет разбился вдребезги!
-wg.desc.gemcut.POINT=Точечная Огранка
-wg.desc.gemcut.TABLE=Плоская Огранка
-wg.desc.gemcut.STEP=Ступенчатая Огранка
-wg.desc.gemcut.ROSE=Огранка Роза
-wg.desc.gemcut.OVAL=Овальная Огранка
+wg.desc.gemcut.POINT=Точечная огранка
+wg.desc.gemcut.TABLE=Плоская огранка
+wg.desc.gemcut.STEP=Ступенчатая огранка
+wg.desc.gemcut.ROSE=Огранка «Роза»
+wg.desc.gemcut.OVAL=Овальная огранка
 wg.desc.gemaffinity=Природное родство:
 wg.desc.gemaversion=Природное отвращение:
 
-wg.desc.ctrlForAspectList=§7Удерживать §aCtrl§7 для списка аспектов§r
+wg.desc.ctrlForAspectList=§7Удерживайте §aCtrl§7 для списка аспектов§r
 wg.desc.scanCompleted=Сканирование завершено
 
 wg.desc.gearSlot.tg.0=Одето в слот для §aПлаща§7

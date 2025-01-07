@@ -473,7 +473,7 @@
   "jm.minimap.reticle_orientation.tooltip": "Ориентация (вращение) направляющих на мини-карте",
   "jm.minimap.return_to_game": "Вернуться в игру",
   "jm.minimap.shape": "Форма",
-  "jm.minimap.shape.tooltip": "Форма мини-карты. Примечание: Отображение названия измерения поддерживается только для круглой карты.",
+  "jm.minimap.shape.tooltip": "Форма мини-карты. Примечание: отображение названия измерения поддерживается только для круглой карты.",
   "jm.minimap.shape_circle": "Окружность",
   "jm.minimap.shape_rectangle": "Прямоугольник",
   "jm.minimap.shape_square": "Квадрат",

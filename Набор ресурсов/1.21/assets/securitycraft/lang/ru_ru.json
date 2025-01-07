@@ -780,7 +780,7 @@
     "gui.securitycraft:projector.height.description": "Высота проекции.",
     "gui.securitycraft:projector.horizontal": "Горизонтальная проекция",
     "gui.securitycraft:projector.isOverridingBlocks.no": "Этот проектор будет проецировать блоки только в том случае, если на месте проекции нет физического блока.",
-    "gui.securitycraft:projector.isOverridingBlocks.yes": "Этот проектор будет проецировать блоки, несмотря на любые физические блоки в мире. Предупреждение: Это может привести к мерцанию z-боя!",
+    "gui.securitycraft:projector.isOverridingBlocks.yes": "Этот проектор будет проецировать блоки, несмотря на любые физические блоки в мире. Внимание: это может привести к z-конфликту!",
     "gui.securitycraft:projector.offset": "Смещение: %s",
     "gui.securitycraft:projector.offset.description": "Горизонтальное смещение проекции.",
     "gui.securitycraft:projector.range": "Диапазон: %s",

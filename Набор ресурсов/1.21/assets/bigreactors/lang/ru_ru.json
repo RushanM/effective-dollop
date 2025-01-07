@@ -204,7 +204,7 @@
     "gui.bigreactors.reactor.controller.fuelbar.tooltip.value1": "  Заполнено: @0",
     "gui.bigreactors.reactor.controller.fuelbar.tooltip.value2": "  Исчерпано: @1",
     "gui.bigreactors.reactor.controller.fuelbar.tooltip.value3": "Топливные стержни: @5",
-    "gui.bigreactors.reactor.controller.fuelbar.tooltip.value4": "Макс. емкость: @6",
+    "gui.bigreactors.reactor.controller.fuelbar.tooltip.value4": "Макс. ёмкость: @6",
     "gui.bigreactors.reactor.controller.fuelbar.tooltip.value5": "Топливо: @2",
     "gui.bigreactors.reactor.controller.fuelbar.tooltip.value6": "Отходы: @3",
     "gui.bigreactors.reactor.controller.fuelbar.tooltip.value7": "Всего: @4",

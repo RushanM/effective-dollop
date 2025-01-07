@@ -92,7 +92,7 @@
   "controlify.gui.right_stick": "Правый стик",
   "controlify.gui.axis_deadzone": "%s",
   "controlify.gui.axis_deadzone.tooltip": "Насколько %s должен быть смещён перед регистрацией какого либо ввода.",
-  "controlify.gui.stickdrift_warning": "Внимание: Слишком низкое значение этой настройки приведет к дрифту! В этом случае внутренние компоненты контроллера оказываются неправильно откалиброванными и регистрируют малые значения входного сигнала, которых не должно быть.",
+  "controlify.gui.stickdrift_warning": "Внимание: слишком низкое значение этой настройки приведет к дрифту! В этом случае внутренние компоненты контроллера оказываются неправильно откалиброванными и регистрируют малые значения входного сигнала, которых не должно быть.",
   "controlify.gui.auto_calibration": "Automatic Calibration",
   "controlify.gui.auto_calibration.tooltip": "Automatically calibrate the deadzones and gyro of your controller.",
   "controlify.gui.button_activation_threshold": "Порог срабатывания кнопок",

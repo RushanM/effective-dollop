@@ -292,7 +292,7 @@
   "sodium-extra.option.steady_debug_hud.tooltip": "Синхронизация обновления данных на экране отладки с заданной частотой.",
   "sodium-extra.option.steady_debug_hud_refresh_interval": "Интервал обновления",
   "sodium-extra.option.steady_debug_hud_refresh_interval.tooltip": "Настройка частоты обновления экрана отладки (в тактах).",
-  "sodium-extra.option.sun_moon": "Солнце и Луна",
+  "sodium-extra.option.sun_moon": "Солнце и луна",
   "sodium-extra.option.sun_moon.tooltip": "Переключение видимости солнца и луны.",
   "sodium-extra.option.system_toast": "Системные уведомления",
   "sodium-extra.option.system_toast.tooltip": "Всплывающие уведомления технического характера.",

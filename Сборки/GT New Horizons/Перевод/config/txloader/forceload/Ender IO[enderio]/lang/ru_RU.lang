@@ -948,7 +948,7 @@ enderio.darksteel.upgrade.sound.enabled=Звуколокатор включен
 enderio.darksteel.upgrade.sound.disabled=Звуколокатор отключен
 
 enderio.darksteel.upgrade.gogglesOfRevealing.name=Откровение
-enderio.darksteel.upgrade.gogglesOfRevealing.tooltip.detailed.line1=Снижение затрат Вис: 5%
+enderio.darksteel.upgrade.gogglesOfRevealing.tooltip.detailed.line1=Снижение затрат визов: 5%
 enderio.darksteel.upgrade.gogglesOfRevealing.enabled=Магия раскрывается
 enderio.darksteel.upgrade.gogglesOfRevealing.disabled=Магия скрыта от обычного взгляда
 
