@@ -378,7 +378,7 @@ gui.valkyrie.dialog.playerdead.1=Тебе нужен медальон? Попр�
 gui.valkyrie.dialog.playerdead.2=Maybe some day, %s... maybe some day.
 gui.valkyrie.dialog.playerdead.3=Люди не такие милые, когда они мертвы.
 
-gui.valkyrie.dialog.ready=Итак, давайте начнем!
+gui.valkyrie.dialog.ready=Итак, давайте начнём!
 gui.valkyrie.dialog.nomedals=Не торопись. 
 gui.valkyrie.dialog.nofight=Так тому и быть. Прощай, искатель приключений.
 
