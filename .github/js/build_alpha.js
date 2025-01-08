@@ -212,19 +212,35 @@ async function getModInfoFromSheet(modId, gameVer, sheets) {
    // Для сортировки по popularity (столбец O), используем generic индекс:
    const popularityIndex = headers.indexOf('popularity');
 
+   // Приводим искомый мод и версию к нижнему регистру и без пробелов
+   const normalizedModId = modId.trim().toLowerCase();
+   const normalizedGameVer = gameVer.trim().toLowerCase();
+
    for (let i = 1; i < rows.length; i++) {
        const row = rows[i];
-       if (!row[idIndex] || !row[gameVerIndex]) continue;
+       // Пропускаем пустые строки
+       if (!row[idIndex] && !row[nameIndex]) continue;
+       if (!row[gameVerIndex]) continue;
 
-       if (row[idIndex] === modId && row[gameVerIndex] === gameVer) {
-           const name = row[nameIndex];
-           const modrinthUrl = row[modrinthUrlIndex];
-           const cfUrl = row[cfUrlIndex];
-           const fallbackUrl = row[fallbackUrlIndex];
-           const url = modrinthUrl || cfUrl || fallbackUrl || '';
+       // Анализируем id из таблицы (если пустое, пробуем по имени)
+       const rowIdRaw = row[idIndex] ? row[idIndex].trim().toLowerCase() : '';
+       const rowNameRaw = row[nameIndex] ? row[nameIndex].trim().toLowerCase() : '';
+       const rowGameVerRaw = row[gameVerIndex].trim().toLowerCase();
 
-           // popularity может быть пустым — дадим ему 0 по умолчанию
-           const popularity = popularityIndex !== -1 && row[popularityIndex] ? parseInt(row[popularityIndex]) : 0;
+       // Условие: либо совпал modId с id, либо modId встретился в названии (случай, когда id пуст)
+       // Дополнительно проверяем, что версия из таблицы начинается так же, как версия из пути
+       if (
+           ((rowIdRaw && rowIdRaw === normalizedModId) || (!rowIdRaw && rowNameRaw.includes(normalizedModId))) &&
+           rowGameVerRaw.startsWith(normalizedGameVer)
+       ) {
+           const name = row[nameIndex] || modId;
+           const modrinthUrl = row[modrinthUrlIndex] || '';
+           const cfUrl = row[cfUrlIndex] || '';
+           const fallbackUrl = row[fallbackUrlIndex] || '';
+           const url = modrinthUrl || cfUrl || fallbackUrl;
+
+           const popularity = popularityIndex !== -1 && row[popularityIndex]
+               ? parseInt(row[popularityIndex]) : 0;
 
            return {
                name,
