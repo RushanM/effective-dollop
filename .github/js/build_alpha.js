@@ -74,7 +74,7 @@ const sheets = google.sheets({ version: 'v4', auth });
 
 function getLastVersionTag(tags) {
     const versionTags = tags.filter(tag =>
-        /^(?:dev\d+|\d+(?:\.\d+)?-C\d+-B\d+(?:-A\d+)?)$/.test(tag.name)
+        /^(?:dev\d+|\d+(?:\.0)?-C\d+-B\d+(?:-A\d+)?)$/.test(tag.name)
     );
     if (versionTags.length === 0) return null;
 
@@ -214,46 +214,56 @@ async function getModInfoFromSheet(modId, gameVer, sheets) {
     const normalizedModId = modId.trim().toLowerCase();
     const normalizedGameVer = gameVer.trim().toLowerCase();
 
-    let matchedRows = rows.slice(1).filter(row => {
-        // Пропускаем пустые строки
-        if ((!row[idIndex] && !row[nameIndex]) || !row[gameVerIndex]) return false;
-
-        // Нормализация для модов без id
-        let currentModId = row[idIndex] ? row[idIndex].trim().toLowerCase() : '';
-        if (!currentModId && row[nameIndex]) {
-            currentModId = row[nameIndex].trim().toLowerCase().replace(/\s+/g, '').replace(/'/g, '');
+    // Сборка всех строк, совпадающих с идентификатором или названием, игнорируя регистр
+    const possibleMatches = [];
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || (!(row[idIndex] || row[nameIndex]))) {
+            continue; // Пропуск пустых строк
         }
 
-        const rowGameVerRaw = row[gameVerIndex].trim().toLowerCase();
+        const rowIdRaw = row[idIndex] ? row[idIndex].trim().toLowerCase() : '';
+        const rowNameRaw = row[nameIndex] ? row[nameIndex].trim().toLowerCase() : '';
+        const rowGameVerRaw = row[gameVerIndex] ? row[gameVerIndex].trim().toLowerCase() : '';
 
-        return (
-            currentModId === normalizedModId &&
-            rowGameVerRaw.startsWith(normalizedGameVer)
-        );
-    });
+        // 1) если у строки есть идентификатор, проверить совпадает ли он с идентификатором мода,
+        // 2) если у строки нет идентификатора, проверить, включает ли название мода идентификатор мода (как резервный вариант)
+        //    (или проверить, равно ли rowNameRaw normalizedModId, чтобы получить точное совпадение).
+        const idMatches = rowIdRaw && (rowIdRaw === normalizedModId);
+        const nameMatches =
+            (!rowIdRaw && rowNameRaw.includes(normalizedModId)) ||
+            rowNameRaw === normalizedModId;
 
-    if (matchedRows.length === 0) return null;
+        if (idMatches || nameMatches) {
+            possibleMatches.push({ row, rowGameVerRaw });
+        }
+    }
 
-    // Выбираем строку с максимальной популярностью
-    matchedRows.sort((a, b) => {
-        const popA = a[popularityIndex] ? parseFloat(a[popularityIndex].replace(',', '.')) : 0;
-        const popB = b[popularityIndex] ? parseFloat(b[popularityIndex].replace(',', '.')) : 0;
-        return popB - popA;
-    });
+    // Если совпадений нет, вернуть null
+    if (possibleMatches.length === 0) return null;
 
-    const selectedRow = matchedRows[0];
+    // Попытка найти строку, чья версия игры начинается с заданной версии
+    // Если не нашлась, просто взять первое совпадение
+    let bestRowEntry = possibleMatches.find(entry =>
+        entry.rowGameVerRaw && entry.rowGameVerRaw.startsWith(normalizedGameVer)
+    );
+    if (!bestRowEntry) {
+        bestRowEntry = possibleMatches[0];
+    }
 
-    const name = selectedRow[nameIndex] || modId;
-    const modrinthUrl = selectedRow[modrinthUrlIndex] || '';
-    const cfUrl = selectedRow[cfUrlIndex] || '';
-    const fallbackUrl = selectedRow[fallbackUrlIndex] || '';
+    // Сборка возвращаемого объекта из выбранной строки
+    const bestRow = bestRowEntry.row;
+    const rowName = bestRow[nameIndex] || modId;
+    const modrinthUrl = bestRow[modrinthUrlIndex] || '';
+    const cfUrl = bestRow[cfUrlIndex] || '';
+    const fallbackUrl = bestRow[fallbackUrlIndex] || '';
     const url = modrinthUrl || cfUrl || fallbackUrl;
-
-    const popularity = popularityIndex !== -1 && selectedRow[popularityIndex]
-        ? parseFloat(selectedRow[popularityIndex].replace(',', '.')) : 0;
+    const popularity = popularityIndex !== -1 && bestRow[popularityIndex]
+        ? parseInt(bestRow[popularityIndex])
+        : 0;
 
     return {
-        name,
+        name: rowName,
         url,
         popularity,
     };
@@ -283,26 +293,6 @@ async function getModChanges(changedFiles, sheets) {
             const action = file.status.startsWith('A') ? 'добавлен' : 'изменён';
 
             const modInfo = await getModInfoFromSheet(modId, gameVer, sheets);
-            if (modInfo) {
-                modChanges.push({
-                    action,
-                    name: modInfo.name,
-                    url: modInfo.url,
-                    gameVer,
-                    popularity: modInfo.popularity,
-                });
-            }
-        }
-
-        // Проверка на изменения в папке book
-        if (/^Набор ресурсов\/[^/]+\/assets\/[^/]+\/book\/[^/]+\/ru_ru\/.*\.(json|txt)$/.test(decodedFilePath)) {
-            const parts = decodedFilePath.split('/');
-            const gameVer = parts[1];
-            const modName = parts[3];
-            const normalizedModName = modName.trim().toLowerCase().replace(/\s+/g, '').replace(/'/g, '');
-            const action = file.status.startsWith('A') ? 'добавлен' : 'изменён';
-
-            const modInfo = await getModInfoFromSheet(normalizedModName, gameVer, sheets);
             if (modInfo) {
                 modChanges.push({
                     action,
@@ -351,37 +341,26 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     const grouped = {};
     modChanges.forEach(change => {
         // Ключ для группировки
-        const key = `${change.name}::${change.url}::${change.popularity}`;
+        const key = `${change.action}::${change.name}::${change.url}::${change.popularity}`;
         if (!grouped[key]) {
-            grouped[key] = {
-                action: change.action,
-                name: change.name,
-                url: change.url,
-                popularity: change.popularity,
-                versions: []
-            };
+            grouped[key] = [];
         }
-        grouped[key].versions.push(change.gameVer);
+        grouped[key].push(change.gameVer);
     });
 
     // Преобразование группы в список (для сортировки и вывода)
     let groupedList = Object.keys(grouped).map(key => {
-        const { action, name, url, popularity, versions } = grouped[key];
-        const sortedVersions = versions.map(ver => {
-            const num = ver === 'b1.7.3' ? 'b1.7.3' : parseFloat(ver) || 0;
+        const [action, name, url, popularity] = key.split('::');
+        const versions = grouped[key].map(ver => {
+            const num = parseFloat(ver) || 0;
             return { original: ver, numeric: num };
-        }).sort((a, b) => {
-            if (a.original === 'b1.7.3') return -1;
-            if (b.original === 'b1.7.3') return 1;
-            return a.numeric - b.numeric;
         });
-
         return {
             action,
             name,
             url,
-            popularity,
-            versions: sortedVersions
+            popularity: parseInt(popularity),
+            versions,
         };
     });
 
@@ -397,6 +376,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     // Формируем строки описаний для каждой группы
     for (const group of groupedList) {
         const { action, name, url, versions } = group;
+        versions.sort((a, b) => a.numeric - b.numeric);
 
         if (versions.length === 1) {
             // Если одна версия
