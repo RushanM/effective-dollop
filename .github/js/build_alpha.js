@@ -192,7 +192,7 @@ function getChangedFiles(lastTag) {
 
 async function getModInfoFromSheet(modId, gameVer, sheets) {
     const spreadsheetId = '1kGGT2GGdG_Ed13gQfn01tDq2MZlVOC9AoiD1s3SDlZE';
-    const range = 'db!A1:Z1000';
+    const range = 'db!A1:Z1500';
 
     const response = await sheets.spreadsheets.values.get({
         spreadsheetId,
