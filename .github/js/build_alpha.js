@@ -293,18 +293,21 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         description += `Про то, как выходят ранние версии проекта, можете прочитать [здесь](https://github.com/RushanM/Minecraft-Mods-Russian-Translation/blob/beta/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%98%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B2%D1%8B%D0%BF%D1%83%D1%81%D0%BA%D0%BE%D0%B2.md).\n\n`;
     }
 
-    // Получить изменение модов + новые версии
+    // Получение изменений модов и новых версий
     const { modChanges, newGameVersions } = await getModChanges(changedFiles, sheets);
-
     const allChanges = [];
 
     // Добавление информации о новых версиях Minecraft (pack.mcmeta добавлен)
     newGameVersions.forEach(gameVer => {
-        allChanges.push(`начат перевод модов для Minecraft ${gameVer}.x`);
+        // Если версия — b1.7.3, не добавляем суффикс .x
+        if (gameVer === 'b1.7.3') {
+            allChanges.push(`начат перевод модов для Minecraft ${gameVer}`);
+        } else {
+            allChanges.push(`начат перевод модов для Minecraft ${gameVer}.x`);
+        }
     });
 
-    // Группируем modChanges по «action», «name», «url»
-    // и собираем список gameVer для каждой группы
+    // Группировка изменений модов
     const grouped = {};
     modChanges.forEach(change => {
         // Ключ для группировки
@@ -315,11 +318,9 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         grouped[key].push(change.gameVer);
     });
 
-    // Преобразуем группы в список (чтобы отсортировать)
+    // Преобразование группы в список (для сортировки и вывода)
     let groupedList = Object.keys(grouped).map(key => {
         const [action, name, url, popularity] = key.split('::');
-        // Собираем версии: преобразуем к числу, чтобы правильно брать min/max
-        // (у нас может быть 1.18, 1.19, 1.21)
         const versions = grouped[key].map(ver => {
             const num = parseFloat(ver) || 0;
             return { original: ver, numeric: num };
@@ -333,38 +334,44 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         };
     });
 
-    // Сортируем список по popularity по убыванию, затем по названию мода по возрастанию на случай одинаковой popularity
+    // Сортируем по popularity, затем по названию
     groupedList.sort((a, b) => {
         if (b.popularity !== a.popularity) {
-            return b.popularity - a.popularity; // Сначала самые популярные
+            return b.popularity - a.popularity;
         }
         // Если популярность одинаковая, то по названию
         return a.name.localeCompare(b.name);
     });
 
-    // Формируем строки описаний
+    // Формируем строки описаний для каждой группы
     for (const group of groupedList) {
         const { action, name, url, versions } = group;
         versions.sort((a, b) => a.numeric - b.numeric);
 
         if (versions.length === 1) {
-            allChanges.push(
-                `${action} перевод мода [${name}](${url}) на Minecraft ${versions[0].original}.x`
-            );
+            // Если одна версия
+            const versionLabel = versions[0].original === 'b1.7.3'
+                ? versions[0].original
+                : `${versions[0].original}.x`;
+            allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
         } else {
+            // Несколько версий
             const start = versions[0].original;
             const end = versions[versions.length - 1].original;
             if (start === end) {
-                allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${start}.x`);
+                // Одинаковая версия
+                const versionLabel = start === 'b1.7.3' ? start : `${start}.x`;
+                allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
             } else {
-                allChanges.push(
-                    `${action} перевод мода [${name}](${url}) на Minecraft ${start}.x — ${end}.x`
-                );
+                // Диапазон версий
+                const startLabel = start === 'b1.7.3' ? start : `${start}.x`;
+                const endLabel = end === 'b1.7.3' ? end : `${end}.x`;
+                allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${startLabel} — ${endLabel}`);
             }
         }
     }
 
-    // Формирование итогового описания
+    // Формирование итогового описания изменений
     if (allChanges.length === 1) {
         const singleChange = allChanges[0].charAt(0).toUpperCase() + allChanges[0].slice(1);
         description += singleChange;
@@ -373,12 +380,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         // Перечисляем через «* »
         allChanges.forEach((entry, index) => {
             const isLast = index === allChanges.length - 1;
-            // Оформим как список
-            if (isLast) {
-                description += `* ${entry}.\n`;
-            } else {
-                description += `* ${entry},\n`;
-            }
+            description += isLast ? `* ${entry}.\n` : `* ${entry},\n`;
         });
     }
 
