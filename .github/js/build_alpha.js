@@ -191,65 +191,83 @@ function getChangedFiles(lastTag) {
 // Функция для получения информации о моде из таблицы
 
 async function getModInfoFromSheet(modId, gameVer, sheets) {
-   const spreadsheetId = '1kGGT2GGdG_Ed13gQfn01tDq2MZlVOC9AoiD1s3SDlZE';
-   const range = 'db!A1:Z1000';
+    const spreadsheetId = '1kGGT2GGdG_Ed13gQfn01tDq2MZlVOC9AoiD1s3SDlZE';
+    const range = 'db!A1:Z1000';
 
-   const response = await sheets.spreadsheets.values.get({
-       spreadsheetId,
-       range,
-   });
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
+    });
 
-   const rows = response.data.values;
-   if (!rows || rows.length === 0) return null;
+    const rows = response.data.values;
+    if (!rows || rows.length === 0) return null;
 
-   const headers = rows[0];
-   const idIndex = headers.indexOf('id');
-   const gameVerIndex = headers.indexOf('gameVer');
-   const nameIndex = headers.indexOf('name');
-   const modrinthUrlIndex = headers.indexOf('modrinthUrl');
-   const cfUrlIndex = headers.indexOf('cfUrl');
-   const fallbackUrlIndex = headers.indexOf('fallbackUrl');
-   // Для сортировки по popularity (столбец O), используем generic индекс:
-   const popularityIndex = headers.indexOf('popularity');
+    const headers = rows[0];
+    const idIndex = headers.indexOf('id');
+    const gameVerIndex = headers.indexOf('gameVer');
+    const nameIndex = headers.indexOf('name');
+    const modrinthUrlIndex = headers.indexOf('modrinthUrl');
+    const cfUrlIndex = headers.indexOf('cfUrl');
+    const fallbackUrlIndex = headers.indexOf('fallbackUrl');
+    const popularityIndex = headers.indexOf('popularity');
 
-   // Приводим искомый мод и версию к нижнему регистру и без пробелов
-   const normalizedModId = modId.trim().toLowerCase();
-   const normalizedGameVer = gameVer.trim().toLowerCase();
+    // Приведение идентификатора и версии игры мода в надлежащий вид
+    const normalizedModId = modId.trim().toLowerCase();
+    const normalizedGameVer = gameVer.trim().toLowerCase();
 
-   for (let i = 1; i < rows.length; i++) {
-       const row = rows[i];
-       // Пропускаем пустые строки
-       if (!row[idIndex] && !row[nameIndex]) continue;
-       if (!row[gameVerIndex]) continue;
+    // Сборка всех строк, совпадающих с идентификатором или названием, игнорируя регистр
+    const possibleMatches = [];
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || (!(row[idIndex] || row[nameIndex]))) {
+            continue; // Пропуск пустых строк
+        }
 
-       // Анализируем id из таблицы (если пустое, пробуем по имени)
-       const rowIdRaw = row[idIndex] ? row[idIndex].trim().toLowerCase() : '';
-       const rowNameRaw = row[nameIndex] ? row[nameIndex].trim().toLowerCase() : '';
-       const rowGameVerRaw = row[gameVerIndex].trim().toLowerCase();
+        const rowIdRaw = row[idIndex] ? row[idIndex].trim().toLowerCase() : '';
+        const rowNameRaw = row[nameIndex] ? row[nameIndex].trim().toLowerCase() : '';
+        const rowGameVerRaw = row[gameVerIndex] ? row[gameVerIndex].trim().toLowerCase() : '';
 
-       // Условие: либо совпал modId с id, либо modId встретился в названии (случай, когда id пуст)
-       // Дополнительно проверяем, что версия из таблицы начинается так же, как версия из пути
-       if (
-           ((rowIdRaw && rowIdRaw === normalizedModId) || (!rowIdRaw && rowNameRaw.includes(normalizedModId))) &&
-           rowGameVerRaw.startsWith(normalizedGameVer)
-       ) {
-           const name = row[nameIndex] || modId;
-           const modrinthUrl = row[modrinthUrlIndex] || '';
-           const cfUrl = row[cfUrlIndex] || '';
-           const fallbackUrl = row[fallbackUrlIndex] || '';
-           const url = modrinthUrl || cfUrl || fallbackUrl;
+        // 1) если у строки есть идентификатор, проверить совпадает ли он с идентификатором мода,
+        // 2) если у строки нет идентификатора, проверить, включает ли название мода идентификатор мода (как резервный вариант)
+        //    (или проверить, равно ли rowNameRaw normalizedModId, чтобы получить точное совпадение).
+        const idMatches = rowIdRaw && (rowIdRaw === normalizedModId);
+        const nameMatches =
+            (!rowIdRaw && rowNameRaw.includes(normalizedModId)) ||
+            rowNameRaw === normalizedModId;
 
-           const popularity = popularityIndex !== -1 && row[popularityIndex]
-               ? parseInt(row[popularityIndex]) : 0;
+        if (idMatches || nameMatches) {
+            possibleMatches.push({ row, rowGameVerRaw });
+        }
+    }
 
-           return {
-               name,
-               url,
-               popularity,
-           };
-       }
-   }
-   return null;
+    // Если совпадений нет, вернуть null
+    if (possibleMatches.length === 0) return null;
+
+    // Попытка найти строку, чья версия игры начинается с заданной версии
+    // Если не нашлась, просто взять первое совпадение
+    let bestRowEntry = possibleMatches.find(entry =>
+        entry.rowGameVerRaw && entry.rowGameVerRaw.startsWith(normalizedGameVer)
+    );
+    if (!bestRowEntry) {
+        bestRowEntry = possibleMatches[0];
+    }
+
+    // Сборка возвращаемого объекта из выбранной строки
+    const bestRow = bestRowEntry.row;
+    const rowName = bestRow[nameIndex] || modId;
+    const modrinthUrl = bestRow[modrinthUrlIndex] || '';
+    const cfUrl = bestRow[cfUrlIndex] || '';
+    const fallbackUrl = bestRow[fallbackUrlIndex] || '';
+    const url = modrinthUrl || cfUrl || fallbackUrl;
+    const popularity = popularityIndex !== -1 && bestRow[popularityIndex]
+        ? parseInt(bestRow[popularityIndex])
+        : 0;
+
+    return {
+        name: rowName,
+        url,
+        popularity,
+    };
 }
 
 // Функция для получения информации об изменениях модов
