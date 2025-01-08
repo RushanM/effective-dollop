@@ -79,7 +79,6 @@ function getLastVersionTag(tags) {
     if (versionTags.length === 0) return null;
 
     // Сортировка тегов по версии
-
     versionTags.sort((a, b) => {
         const versionA = getVersionNumber(a.name);
         const versionB = getVersionNumber(b.name);
@@ -104,7 +103,6 @@ function getVersionNumber(tag) {
 
         // Считаем общий номер версии для сортировки
         // Приоритет: releaseNumMain → releaseNumMinor → candidateNum → betaNum → alphaNum
-
         return (
             releaseNumMain * 100000000 +
             releaseNumMinor * 1000000 +
@@ -321,7 +319,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     let groupedList = Object.keys(grouped).map(key => {
         const [action, name, url, popularity] = key.split('::');
         // Собираем версии: преобразуем к числу, чтобы правильно брать min/max
-        // (у нас может быть 1.18, 1.19, 1.21; упростим: распарсим gameVer до int)
+        // (у нас может быть 1.18, 1.19, 1.21)
         const versions = grouped[key].map(ver => {
             const num = parseFloat(ver) || 0;
             return { original: ver, numeric: num };
@@ -344,22 +342,18 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         return a.name.localeCompare(b.name);
     });
 
-    // Для каждой группы выводим одну строку:
-    // * изменён перевод мода [name](url) на Minecraft 1.18.x — 1.21.x
+    // Формируем строки описаний
     for (const group of groupedList) {
         const { action, name, url, versions } = group;
+        versions.sort((a, b) => a.numeric - b.numeric);
+
         if (versions.length === 1) {
-            // Только одна версия
             allChanges.push(
                 `${action} перевод мода [${name}](${url}) на Minecraft ${versions[0].original}.x`
             );
         } else {
-            // Сортируем версии по numeric
-            versions.sort((a, b) => a.numeric - b.numeric);
-            // Берём минимальную и максимальную
             const start = versions[0].original;
             const end = versions[versions.length - 1].original;
-            // Если start == end, фактически одна версия, иначе указываем диапазон
             if (start === end) {
                 allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${start}.x`);
             } else {
@@ -372,11 +366,11 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
 
     // Формирование итогового описания
     if (allChanges.length === 1) {
-        description += allChanges[0];
+        const singleChange = allChanges[0].charAt(0).toUpperCase() + allChanges[0].slice(1);
+        description += singleChange;
     } else if (allChanges.length > 1) {
         description += `Изменения в этой версии:\n\n`;
         // Перечисляем через «* »
-        // Последнюю запятую/точку управляем как угодно, здесь просто ставаяем запятые/точку в конце
         allChanges.forEach((entry, index) => {
             const isLast = index === allChanges.length - 1;
             // Оформим как список
@@ -418,7 +412,6 @@ async function getPreviousAssetVersions(lastTag) {
     return versions;
 }
 
-
 // Функция для создания архивов с учётом версий файлов
 
 function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTag) {
@@ -455,7 +448,7 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
                     const devNumber = parseInt(lastTag.slice(3));
                     assetVersion = `1.0-C1-B1-A${devNumber}`;
                 } else {
-                    assetVersion = nextTagInfo.tag; // 1.0-C1-B1-A…
+                    assetVersion = nextTagInfo.tag;
                 }
             }
 
@@ -464,14 +457,12 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
             const zip = new AdmZip();
 
             // Добавление в ZIP
-
             const assetsPath = path.join(versionDir, 'assets');
             if (fs.existsSync(assetsPath)) {
                 zip.addLocalFolder(assetsPath, 'assets');
             }
 
             // Добавление файлов из папки версии
-
             ['pack.mcmeta', 'dynamicmcpack.json', 'respackopts.json5'].forEach(fileName => {
                 const filePath = path.join(versionDir, fileName);
                 if (fs.existsSync(filePath)) {
@@ -513,7 +504,6 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
             const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(packDir));
 
             let assetVersion;
-
             if (prevVersion) {
                 // Извлечение номера предыдущей версии
                 const prevVersionNumber = getAssetVersionNumber(prevVersion);
@@ -539,7 +529,6 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
             const outputPath = path.join(releasesDir, archiveName);
 
             const zip = new AdmZip();
-
             zip.addLocalFolder(packDir);
             zip.writeZip(outputPath);
 
@@ -571,7 +560,6 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
             const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(packDir));
 
             let assetVersion;
-
             if (prevVersion) {
                 // Извлечение номера предыдущей версии
                 const prevVersionNumber = getAssetVersionNumber(prevVersion);
@@ -597,7 +585,6 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
             const outputPath = path.join(releasesDir, archiveName);
 
             const zip = new AdmZip();
-
             zip.addLocalFolder(packDir);
             zip.writeZip(outputPath);
 
@@ -617,7 +604,6 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
 
 function getAssetVersionNumber(version) {
     // Если тег devNN
-
     if (version.startsWith('dev')) {
         return version.replace('dev', '1.0-C1-B1-A');
     }
@@ -627,9 +613,7 @@ function getAssetVersionNumber(version) {
 // Функция для увеличения версии
 
 function incrementAssetVersion(version) {
-
     // Ищем паттерн: 1.0-C1-B1-A1
-
     const match = version.match(/^(\d+)(?:\.(\d+))?-C(\d+)-B(\d+)-A(\d+)$/);
     if (match) {
         const releaseNumMain = parseInt(match[1]);
