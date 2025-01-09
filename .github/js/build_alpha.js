@@ -189,7 +189,7 @@ function getChangedFiles(lastTag) {
 
 // Функция для получения информации об изменениях модов
 async function getModChanges(changedFiles, sheets) {
-    const modChangesMap = new Map();
+    const modChanges = [];
     const newGameVersions = [];
 
     for (const file of changedFiles) {
@@ -203,7 +203,9 @@ async function getModChanges(changedFiles, sheets) {
             continue;
         }
 
-        // Подхватывание изменений в папках lang и book модов
+        // Подхватывание изменений в папках lang и book модов: например,
+        // «Набор ресурсов/1.20/assets/alexsmobs/lang/…» или
+        // «Набор ресурсов/1.20/assets/alexsmobs/book/…»
         const langOrBookMatch = decodedFilePath.match(/^Набор ресурсов\/([^/]+)\/assets\/([^/]+)\/(lang|book)\/.+\.(json|lang|txt|xml)$/i);
         if (langOrBookMatch) {
             const gameVer = langOrBookMatch[1];
@@ -212,27 +214,18 @@ async function getModChanges(changedFiles, sheets) {
 
             const modInfo = await getModInfoFromSheet(modId, gameVer, sheets);
             if (modInfo) {
-                // Создание ключа для избежания дублирования
-                // (один мод, одна версия, одно действие)
-                const key = `${modInfo.name}::${modInfo.url}::${action}::${gameVer}::${modInfo.popularity}`;
-                // Если такой ключ уже есть, пропуск повтора
-                if (!modChangesMap.has(key)) {
-                    modChangesMap.set(key, {
-                        action,
-                        name: modInfo.name,
-                        url: modInfo.url,
-                        gameVer,
-                        popularity: modInfo.popularity,
-                    });
-                }
+                modChanges.push({
+                    action,
+                    name: modInfo.name,
+                    url: modInfo.url,
+                    gameVer,
+                    popularity: modInfo.popularity,
+                });
             }
         }
     }
 
-    // Преобразование карты обратно в массив
-    const modChanges = Array.from(modChangesMap.values());
     const uniqueGameVersions = [...new Set(newGameVersions)];
-
     return {
         modChanges,
         newGameVersions: uniqueGameVersions,
