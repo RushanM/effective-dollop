@@ -165,7 +165,6 @@ function getNextAlphaTag(lastTag) {
 }
 
 // Функция для получения списка изменённых файлов
-
 function getChangedFiles(lastTag) {
     let diffCommand = 'git -c core.quotepath=false -c i18n.logOutputEncoding=UTF-8 diff --name-status';
     if (lastTag) {
@@ -183,13 +182,66 @@ function getChangedFiles(lastTag) {
             const [status, ...fileParts] = line.split('\t');
             const filePath = fileParts.join('\t');
             return { status, filePath };
-    });
+        });
 
     return changedFiles;
 }
 
-// Функция для получения информации о моде из таблицы
+// Функция для получения информации об изменениях модов
+async function getModChanges(changedFiles, sheets) {
+    const modChangesMap = new Map();
+    const newGameVersions = [];
 
+    for (const file of changedFiles) {
+        const decodedFilePath = file.filePath;
+
+        // Обнаружение добавления нового pack.mcmeta (начата поддержка новой версии игры)
+        const packMcmetaMatch = decodedFilePath.match(/^Набор ресурсов\/([^/]+)\/pack\.mcmeta$/);
+        if (packMcmetaMatch && file.status.startsWith('A')) {
+            const gameVer = packMcmetaMatch[1];
+            newGameVersions.push(gameVer);
+            continue;
+        }
+
+        // Подхватывание изменений в папках lang и book модов
+        const langOrBookMatch = decodedFilePath.match(/^Набор ресурсов\/([^/]+)\/assets\/([^/]+)\/(lang|book)\/.+\.(json|lang|txt|xml)$/i);
+        if (langOrBookMatch) {
+            const gameVer = langOrBookMatch[1];
+            const modId = langOrBookMatch[2];
+            const action = file.status.startsWith('A') ? 'добавлен' : 'изменён';
+
+            const modInfo = await getModInfoFromSheet(modId, gameVer, sheets);
+            if (modInfo) {
+                // Создание ключа для избежания дублирования
+                // (один мод, одна версия, одно действие)
+                const key = `${modInfo.name}::${modInfo.url}::${action}::${gameVer}::${modInfo.popularity}`;
+                // Если такой ключ уже есть, пропуск повтора
+                if (!modChangesMap.has(key)) {
+                    modChangesMap.set(key, {
+                        action,
+                        name: modInfo.name,
+                        url: modInfo.url,
+                        gameVer,
+                        popularity: modInfo.popularity,
+                    });
+                }
+            }
+        }
+    }
+
+    // Преобразование карты обратно в массив
+    const modChanges = Array.from(modChangesMap.values());
+    const uniqueGameVersions = [...new Set(newGameVersions)];
+
+    return {
+        modChanges,
+        newGameVersions: uniqueGameVersions,
+    };
+}
+
+// В getModInfoFromSheet(…) нормализуется как сохранённое название строки, так и запрошенный
+// идентификатор мода, чтобы «alexsmobs» могло соответствовать «Alex's Mobs», если идентификатора мода 
+// нет. Также, если найдено несколько соответствий, выбирается строка с наивысшим значением популярности.
 async function getModInfoFromSheet(modId, gameVer, sheets) {
     const spreadsheetId = '1kGGT2GGdG_Ed13gQfn01tDq2MZlVOC9AoiD1s3SDlZE';
     const range = 'db!A1:Z1500';
@@ -211,112 +263,85 @@ async function getModInfoFromSheet(modId, gameVer, sheets) {
     const fallbackUrlIndex = headers.indexOf('fallbackUrl');
     const popularityIndex = headers.indexOf('popularity');
 
-    // Приведение идентификатора и версии игры мода в надлежащий вид
-    const normalizedModId = modId.trim().toLowerCase();
-    const normalizedGameVer = gameVer.trim().toLowerCase();
+    // Нормализация идентификатора мода (удаление пробелов, апострофов, приведение в нижний регистр 
+    // и так далее)
+    const normalizedModId = modId.trim().toLowerCase().replace(/[ '\']/g, '');
 
-    // Сборка всех строк, совпадающих с идентификатором или названием, игнорируя регистр
+    // Сборка всех возможных совпадений
     const possibleMatches = [];
     for (let i = 1; i < rows.length; i++) {
         const row = rows[i];
-        if (!row || (!(row[idIndex] || row[nameIndex]))) {
-            continue; // Пропуск пустых строк
-        }
+        if (!row) continue;
 
         const rowIdRaw = row[idIndex] ? row[idIndex].trim().toLowerCase() : '';
         const rowNameRaw = row[nameIndex] ? row[nameIndex].trim().toLowerCase() : '';
+        // Удаление пробелов, апострофов из сырого названия строки
+        const rowNameNormalized = rowNameRaw.replace(/[ '\']/g, '');
         const rowGameVerRaw = row[gameVerIndex] ? row[gameVerIndex].trim().toLowerCase() : '';
 
-        // 1) если у строки есть идентификатор, проверить совпадает ли он с идентификатором мода,
-        // 2) если у строки нет идентификатора, проверить, включает ли название мода идентификатор мода (как резервный вариант)
-        //    (или проверить, равно ли rowNameRaw normalizedModId, чтобы получить точное совпадение).
-        const idMatches = rowIdRaw && (rowIdRaw === normalizedModId);
+        // Если в строке есть идентификатор, проверить точное совпадение. В ином случае проверить 
+        // схожесть названий.
+        const idMatches = rowIdRaw === normalizedModId;
         const nameMatches =
-            (!rowIdRaw && rowNameRaw.includes(normalizedModId)) ||
-            rowNameRaw === normalizedModId;
+            (!rowIdRaw && rowNameNormalized.includes(normalizedModId)) ||
+            rowNameNormalized === normalizedModId;
 
         if (idMatches || nameMatches) {
-            possibleMatches.push({ row, rowGameVerRaw });
+            let popularityVal = 0;
+            if (popularityIndex !== -1 && row[popularityIndex]) {
+                // Конвертировать значение популярности в значение с плавающей запятой или оставить
+                // как 0, если не выйдет
+                popularityVal = parseFloat(
+                    row[popularityIndex].toString().replace(/\s/g, '').replace(',', '.')
+                ) || 0;
+            }
+
+            possibleMatches.push({
+                row,
+                rowGameVerRaw,
+                popularity: popularityVal,
+            });
         }
     }
 
     // Если совпадений нет, вернуть null
     if (possibleMatches.length === 0) return null;
 
-    // Попытка найти строку, чья версия игры начинается с заданной версии
-    // Если не нашлась, просто взять первое совпадение
-    let bestRowEntry = possibleMatches.find(entry =>
-        entry.rowGameVerRaw && entry.rowGameVerRaw.startsWith(normalizedGameVer)
+    // Среди возможных совпадений сначала попробовать найти все строки, rowGameVerRaw которых начинается 
+    // с gameVer (например, «1.19»). Если будет несколько совпадений, выбрать то, что с наивысшей 
+    // популярностью.
+    const normalizedGameVer = gameVer.toLowerCase();
+    const versionBasedMatches = possibleMatches.filter(entry =>
+        entry.rowGameVerRaw.startsWith(normalizedGameVer)
     );
-    if (!bestRowEntry) {
-        bestRowEntry = possibleMatches[0];
+
+    let bestMatch = null;
+    if (versionBasedMatches.length > 0) {
+        // Сортировка по популярности
+        versionBasedMatches.sort((a, b) => b.popularity - a.popularity);
+        bestMatch = versionBasedMatches[0];
+    } else {
+        // Если ничего не совпало с версией, просто выбрать строку с наивысшим значением популярности 
+        // среди всех остальных совпадений
+        possibleMatches.sort((a, b) => b.popularity - a.popularity);
+        bestMatch = possibleMatches[0];
     }
 
-    // Сборка возвращаемого объекта из выбранной строки
-    const bestRow = bestRowEntry.row;
+    const bestRow = bestMatch.row;
     const rowName = bestRow[nameIndex] || modId;
     const modrinthUrl = bestRow[modrinthUrlIndex] || '';
     const cfUrl = bestRow[cfUrlIndex] || '';
     const fallbackUrl = bestRow[fallbackUrlIndex] || '';
     const url = modrinthUrl || cfUrl || fallbackUrl;
-    const popularity = popularityIndex !== -1 && bestRow[popularityIndex]
-        ? parseInt(bestRow[popularityIndex])
-        : 0;
 
     return {
         name: rowName,
         url,
-        popularity,
-    };
-}
-
-// Функция для получения информации об изменениях модов
-
-async function getModChanges(changedFiles, sheets) {
-    const modChanges = [];
-    const newGameVersions = [];
-
-    for (const file of changedFiles) {
-        const decodedFilePath = file.filePath;
-
-        // Проверка на добавление pack.mcmeta (новая поддерживаемая версия)
-        const packMcmetaMatch = decodedFilePath.match(/^Набор ресурсов\/([^/]+)\/pack\.mcmeta$/);
-        if (packMcmetaMatch && file.status.startsWith('A')) {
-            const gameVer = packMcmetaMatch[1];
-            newGameVersions.push(gameVer);
-            continue;
-        }
-
-        // Проверка на языковые файлы модов
-        if (/^Набор ресурсов\/[^/]+\/assets\/[^/]+\/lang\/ru_(RU|ru)\.(json|lang)$/.test(decodedFilePath)) {
-            const parts = decodedFilePath.split('/');
-            const gameVer = parts[1];
-            const modId = parts[3];
-            const action = file.status.startsWith('A') ? 'добавлен' : 'изменён';
-
-            const modInfo = await getModInfoFromSheet(modId, gameVer, sheets);
-            if (modInfo) {
-                modChanges.push({
-                    action,
-                    name: modInfo.name,
-                    url: modInfo.url,
-                    gameVer,
-                    popularity: modInfo.popularity,
-                });
-            }
-        }
-    }
-
-    const uniqueGameVersions = [...new Set(newGameVersions)];
-    return {
-        modChanges,
-        newGameVersions: uniqueGameVersions,
+        popularity: bestMatch.popularity,
     };
 }
 
 // Функция для генерации описания выпуска
-// Группирует изменения по модам, чтобы список был компактнее, и сортирует по popularity (большее число — выше)
-
 async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) {
     let description = `Это ${nextTagInfo.alphaNum}-я альфа-версия всех переводов проекта.\n\n`;
 
@@ -637,7 +662,6 @@ function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTa
 }
 
 // Функция для извлечения номера версии из названия архива
-
 function getAssetVersionNumber(version) {
     // Если тег devNN
     if (version.startsWith('dev')) {
@@ -647,7 +671,6 @@ function getAssetVersionNumber(version) {
 }
 
 // Функция для увеличения версии
-
 function incrementAssetVersion(version) {
     // Ищем паттерн: 1.0-C1-B1-A1
     const match = version.match(/^(\d+)(?:\.(\d+))?-C(\d+)-B(\d+)-A(\d+)$/);
@@ -663,7 +686,6 @@ function incrementAssetVersion(version) {
 }
 
 // Функция для создания выпуска на Гитхабе
-
 async function createRelease(tagInfo, releaseNotes, assets) {
     const releaseResponse = await octokit.rest.repos.createRelease({
         ...github.context.repo,
