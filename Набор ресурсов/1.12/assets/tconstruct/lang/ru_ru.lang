@@ -308,7 +308,7 @@ item.tconstruct.nuggets.cobalt.name=Кусочек кобальта
 item.tconstruct.nuggets.ardite.name=Кусочек ардита
 item.tconstruct.nuggets.manyullyn.name=Кусочек маньюлина
 item.tconstruct.nuggets.knightslime.name=Кусочек рыцареслизи
-item.tconstruct.nuggets.pigiron.name=Кусочек свиножелеза
+item.tconstruct.nuggets.pigiron.name=Кусочек свиного железа
 item.tconstruct.nuggets.alubrass.name=Кусочек алюминиевой латуни
 
 item.tconstruct.pattern.blank=Пустая схема
@@ -455,9 +455,7 @@ item.tconstruct.spaghetti.cold.tooltip=Ну, это уже лучше. Хотя 
 
 entity.tconstruct.blueslime.name=Синий слизень
 
-#################
-#    Жижки    #
-#################
+# Жижки
 
 fluid.tconstruct.stone.name=Расплавленный камень
 fluid.tconstruct.obsidian.name=Расплавленный обсидиан
@@ -465,7 +463,7 @@ fluid.tconstruct.clay.name=Расплавленная глина
 fluid.tconstruct.dirt.name=Жидкая земля
 fluid.tconstruct.iron.name=Расплавленное железо
 fluid.tconstruct.gold.name=Расплавленное золото
-fluid.tconstruct.pigiron.name=Расплавленная свиножелезо
+fluid.tconstruct.pigiron.name=Расплавленная свиное железо
 fluid.tconstruct.cobalt.name=Расплавленный кобальт
 fluid.tconstruct.ardite.name=Расплавленный ардит
 fluid.tconstruct.manyullyn.name=Расплавленный маньюлин
@@ -535,7 +533,7 @@ material.manyullyn.name=Маньюлин
 material.manyullyn.prefix=Маньюлинов. %s
 material.iron.name=Железо
 material.iron.prefix=Железн. %s
-material.pigiron.name=Свиножелезо
+material.pigiron.name=Свиное железо
 material.pigiron.prefix=Свиножелезн. %s
 material.copper.name=Медь
 material.copper.prefix=Медн. %s
