@@ -205,11 +205,13 @@ tile.voidstone2.5.desc=Огранённый металлом заряженны�
 tile.voidstone2.6.desc=Глазной заряженный пустотный камень
 tile.voidstone2.7.desc=Скошенный пустотный камень
 
-#Void Stone Pillars
+# Void Stone Pillars
+
 tile.chisel.voidstonePillar2.name=Колонна из заряженного пустотного камня
 tile.voidstonePillar2.0.desc=Полосатая колонна из заряженного пустотного камня
 
-#Arcane
+# Arcane
+
 tile.chisel.arcane.name=Магический каменный блок
 tile.arcane.0.desc=Выгравированная Луна
 tile.arcane.1.desc=Светящаяся Луна
@@ -224,8 +226,9 @@ tile.arcane.9.desc=Неприятные геоглифы Наски
 tile.arcane.10.desc=Изысканная эмблема тауматурга
 tile.arcane.11.desc=Cracked Rock leaking Eldritch Glow
 
-#Thaumium
-tile.chisel.thaumium.name=Таумический блок
+# Таумий
+
+tile.chisel.thaumium.name=Таумиевый блок
 tile.thaumium.0.desc=Декоративный шаблон
 tile.thaumium.1.desc=Изображения тотемов
 tile.thaumium.2.desc=Кирпичи
@@ -233,12 +236,14 @@ tile.thaumium.3.desc=Маленькие плитки
 tile.thaumium.4.desc=Решётка
 tile.thaumium.5.desc=Огранённые доски
 
-#Tallow
+# Tallow
+
 tile.chisel.tallow.name=Блок жира
 tile.tallow.0.desc=Гладкий блок жира
 tile.tallow.1.desc=Оживлённый блок жира
 
-#Blood Rune
+# Blood Rune
+
 tile.chisel.bloodRune.name=Кровавая руна
 tile.bloodRune.0.desc=Обработанная кровавая руна
 tile.bloodRune.1.desc=Кирпичи из кровавой руны

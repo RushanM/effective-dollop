@@ -893,8 +893,8 @@ material.slime.ability=Слизь
 material.steel=Сталь
 material.stone=Камень
 material.stone.ability=Сила камня
-material.thaumium=Таум-металл
-material.thaumium.ability=Таум-сила
+material.thaumium=Таумий
+material.thaumium.ability=Таумичность
 material.wood=Дерево
 material.wood.display=Деревянная
 

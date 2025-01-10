@@ -1207,7 +1207,7 @@
 				item: "gtceu:tritanium_ingot"
 				type: "item"
 			}]
-			title: "&2Tritanium Ingot"
+			title: "&2Тританиевый слиток"
 			x: 20.0d
 			y: 0.5d
 		}
@@ -1222,7 +1222,7 @@
 				item: "gtceu:tritanium_coil_block"
 				type: "item"
 			}]
-			title: "&2Tritanium Coils"
+			title: "&2Тританиевые катушки"
 			x: 18.5d
 			y: 2.0d
 		}
