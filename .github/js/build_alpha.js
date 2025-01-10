@@ -493,7 +493,9 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     }
 
     // Начинаем формировать итоговый блок: «Изменения в этой версии:»
-    finalList += `Изменения в этой версии:\n\n`;
+    if (allChanges.length > 1) {
+        finalList += `Изменения в этой версии:\n\n`;
+    }
 
     // 1) Начат перевод (флажок) — каждая строка отдельный пункт
     for (const fc of flagChanges) {
