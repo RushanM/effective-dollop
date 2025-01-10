@@ -1,3 +1,7 @@
+// Скрипт для автоматического выпуска альфа-версий пачек переводов проекта по переводу модификаций Майнкрафта Дефлекты
+
+//// Инициализация
+////// Подключение пакетов, переменных среды, клиентов Гитхаба и Гугла
 const core = require('@actions/core');
 const github = require('@actions/github');
 const { google } = require('googleapis');
@@ -6,11 +10,11 @@ const path = require('path');
 const AdmZip = require('adm-zip');
 const execSync = require('child_process').execSync;
 
-// Получение переменных окружения
+////// Загрузка переменных окружения GITHUB_TOKEN, GOOGLE_SERVICE_ACCOUNT_KEY
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GOOGLE_SERVICE_ACCOUNT_KEY = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
 
-// Инициализация клиентов Гитхаба и Гугл-таблиц
+////// Создание клиентов octokit (Гитхаба) и sheets (Гугл-таблиц)
 const octokit = github.getOctokit(GITHUB_TOKEN);
 
 const auth = new google.auth.GoogleAuth({
@@ -20,14 +24,16 @@ const auth = new google.auth.GoogleAuth({
 
 const sheets = google.sheets({ version: 'v4', auth });
 
-// Основная функция
+//// Главная асинхронная функция
 (async () => {
     try {
+        ////////// Определение текущего рабочего каталога и вывод отладочной информации
+        ////////// Вывод текущего каталога и списка файлов
         console.log('Текущий рабочий каталог:', process.cwd());
         console.log('Содержание корневого каталога:', fs.readdirSync('.'));
         console.log('Содержание каталога «Набор ресурсов»:', fs.readdirSync('Набор ресурсов'));
 
-        // 1. Получение списка всех тегов.
+        ////////// Получение всех тегов репозитория (версий)
         const tags = await octokit.paginate(octokit.rest.repos.listTags, {
             ...github.context.repo,
             per_page: 100,
@@ -35,61 +41,66 @@ const sheets = google.sheets({ version: 'v4', auth });
 
         console.log(`Всего тегов получено: ${tags.length}`);
 
-        // 2. Нахождение последнего тега (альфа или бета).
+        ////////// Нахождение последнего тега (версии), соответствующей шаблонам devX или <числа>-C<число>-B<число>-A<число>
         const lastTag = getLastVersionTag(tags);
 
         console.log(`Последний тег: ${lastTag}`);
 
-        // 3. Определение следующего тега.
+        ////////// Определение нового тега (следующей альфа-версии)
         const nextTagInfo = getNextAlphaTag(lastTag);
 
         console.log(`Следующий тег: ${nextTagInfo.tag}`);
 
-        // 4. Получение списка изменённых файлов.
+        ////////// Получение информации о том, какие файлы изменились с момента последнего тега
         const changedFiles = getChangedFiles(lastTag);
 
         console.log(`Изменённые файлы:\n${changedFiles.map(f => `${f.status}\t${f.filePath}`).join('\n')}`);
 
-        // 5. Обработка изменений и формирование описания выпуска.
+        ////////// Генерация описания выпуска с использованием данных с таблицы на Гугл-таблицах
         const releaseNotes = await generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag);
 
         console.log(`Описание выпуска:\n${releaseNotes}`);
 
-        // 6. Получение версий архивов из предыдущего выпуска.
+        ////////// Получение версий архивов из предыдущего выпуска, если они есть
         const previousAssetVersions = await getPreviousAssetVersions(lastTag);
 
-        // 7. Создание архивов.
+        ////////// Создание архивов (набора ресурсов, для наборов шейдеров, для сборок модов), учитывая изменённые файлы
         const assets = createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTag);
 
-        // 8. Создание выпуска на Гитхабе.
+        ////////// Создание нового выпуска на Гитхабе с добавлением новосозданных архивов
         await createRelease(nextTagInfo, releaseNotes, assets);
 
+        ////////// Вывод уведомления об успешном создании
         console.log('Выпуск успешно создан.');
+        ////////// Завершение процесса с пометкой об ошибке в случае ошибки
     } catch (error) {
         core.setFailed(error.message);
     }
 })();
 
-// Функция для получения последнего тега (альфа или бета)
-
+////// Функция для получения последнего тега (альфа или бета)
 function getLastVersionTag(tags) {
+    //////// Фильтрация тегов по шаблонам
     const versionTags = tags.filter(tag =>
         /^(?:dev\d+|\d+(?:\.0)?-C\d+-B\d+(?:-A\d+)?)$/.test(tag.name)
     );
     if (versionTags.length === 0) return null;
 
-    // Сортировка тегов по версии
+    //////// Сортировка версий, вычисляя их числовое значение
     versionTags.sort((a, b) => {
         const versionA = getVersionNumber(a.name);
         const versionB = getVersionNumber(b.name);
         return versionB - versionA;
     });
+    //////// Возвращение самого нового тега
     return versionTags[0].name;
 }
 
-// Функция для получения числового значения тега (для сортировки)
-
+////// Функция для получения числового значения тега для сортировки
 function getVersionNumber(tag) {
+    //////// Преобразование строки тега в числовое значение для сортировки
+    //////// Учёт форматов devX и X(.Y)-CX-BX(-AX)
+
     const devMatch = tag.match(/^dev(\d+)$/);
     if (devMatch) return parseInt(devMatch[1]);
 
@@ -101,8 +112,8 @@ function getVersionNumber(tag) {
         const betaNum = parseInt(tagMatch[4]);
         const alphaNum = tagMatch[5] ? parseInt(tagMatch[5]) : 0;
 
-        // Считаем общий номер версии для сортировки
-        // Приоритет: releaseNumMain → releaseNumMinor → candidateNum → betaNum → alphaNum
+        //////// Подсчёт общего номера версии для сортировки
+        //////// Приоритет: releaseNumMain → releaseNumMinor → candidateNum → betaNum → alphaNum
         return (
             releaseNumMain * 100000000 +
             releaseNumMinor * 1000000 +
@@ -111,12 +122,10 @@ function getVersionNumber(tag) {
             alphaNum
         );
     }
-
     return 0;
 }
 
-// Функция для определения следующего тега
-
+////// Функция для определения следующего тега
 function getNextAlphaTag(lastTag) {
     let releaseNumMain = 1;
     let releaseNumMinor = 0;
@@ -124,12 +133,13 @@ function getNextAlphaTag(lastTag) {
     let betaNum = 1;
     let alphaNum = 1;
 
+    //////// Получение предыдущего тега и увеличение нужных показателей, чтобы получить версию формата X.Y-CZ-BZ-AZ
     if (lastTag) {
         const devMatch = lastTag.match(/^dev(\d+)$/);
         const tagMatch = lastTag.match(/^(\d+)(?:\.(\d+))?-C(\d+)-B(\d+)(?:-A(\d+))?$/);
 
         if (devMatch) {
-            // Если предыдущий тег dev, просто увеличиваем alphaNum
+            //////// Увеличение номера альфы, если предыдущий тег — пререлиз
             alphaNum = parseInt(devMatch[1]) + 1;
         } else if (tagMatch) {
             releaseNumMain = parseInt(tagMatch[1]);
@@ -138,21 +148,22 @@ function getNextAlphaTag(lastTag) {
             betaNum = parseInt(tagMatch[4]);
 
             if (tagMatch[5]) {
-                // Если последний тег был альфа-версией, увеличиваем номер альфы
+                //////// Увеличение номера альфы, если предыдущий тег — альфа-версия
                 alphaNum = parseInt(tagMatch[5]) + 1;
             } else {
-                // Если последний тег был бета-версией, увеличиваем номер беты и сбрасываем номер альфы
+                //////// Увеличение номера беты и сброс номера альфы, если предыдущий тег — бета-версия
                 betaNum += 1;
                 alphaNum = 1;
             }
         }
     }
 
-    // Формируем новую строку: 1.0-C1-B1-A1
+    //////// Формирование новой строки: 1.0-C1-B1-A1
     let releaseNumPart = `${releaseNumMain}.${releaseNumMinor}`;
     const newTag = `${releaseNumPart}-C${candidateNum}-B${betaNum}-A${alphaNum}`;
     const title = `${alphaNum}-я альфа`;
 
+    //////// Возврат структуры с новым тегом и его описанием
     return {
         tag: newTag,
         title,
@@ -164,13 +175,16 @@ function getNextAlphaTag(lastTag) {
     };
 }
 
-// Функция для получения списка изменённых файлов
+////// Функция для получения списка изменённых файлов
 function getChangedFiles(lastTag) {
+    //////// Выполнение команды git diff, чтобы узнать, какие файлы изменились с момента предыдущего тега
+    //////// Возвращение списка объектов с полями status и filePath
+
     let diffCommand = 'git -c core.quotepath=false -c i18n.logOutputEncoding=UTF-8 diff --name-status';
     if (lastTag) {
         diffCommand += ` ${lastTag} HEAD`;
     } else {
-        // Если нет предыдущего тега, получаем изменения в последнем коммите
+        //////// Получение изменения в последней правке, если предыдущего тега нет
         diffCommand += ' HEAD~1 HEAD';
     }
 
@@ -187,7 +201,7 @@ function getChangedFiles(lastTag) {
     return changedFiles;
 }
 
-// Функция для получения информации об изменениях модов
+////// Функция для получения информации об изменениях модов
 async function getModChanges(changedFiles, sheets) {
     const modChanges = [];
     const newGameVersions = [];
@@ -195,7 +209,7 @@ async function getModChanges(changedFiles, sheets) {
     for (const file of changedFiles) {
         const decodedFilePath = file.filePath;
 
-        // Обнаружение добавления нового pack.mcmeta (начата поддержка новой версии игры)
+        //////// Обнаружение добавления нового pack.mcmeta (начата поддержка новой версии игры)
         const packMcmetaMatch = decodedFilePath.match(/^Набор ресурсов\/([^/]+)\/pack\.mcmeta$/);
         if (packMcmetaMatch && file.status.startsWith('A')) {
             const gameVer = packMcmetaMatch[1];
