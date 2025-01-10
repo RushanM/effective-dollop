@@ -502,41 +502,58 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         finalList += `* ${fc},\n`;
     }
 
+    // Подсчитываем общее количество пунктов в списке
+    const totalItems = addedChanges.length + modifiedChanges.length;
+    let currentIndex = 0; // Будем увеличивать при выводе каждого пункта
+
     // 2) Добавленные переводы
     if (addedChanges.length === 1) {
-        // Если ровно 1 добавление — делаем одну строку
-        finalList += `* 🆕 добавлен перевод мода ${addedChanges[0]},\n`;
+        finalList += `* 🆕 добавлен перевод мода ${addedChanges[0]}${totalItems === 1 ? '.' : ','}\n`;
+        currentIndex++;
     } else if (addedChanges.length > 1) {
         // Если больше одного — делаем подсписок
         // Проверяем, нужно ли складывать список в спойлер (если > 8)
+        finalList += `* 🆕 добавлены переводы модов:\n`;
+
+        // Если хотим использовать спойлер (пример > 8)
         if (addedChanges.length > 8) {
-            finalList += `* 🆕 добавлены переводы модов:\n`;
             finalList += `\t<details>\n\t<summary>Раскрыть</summary>\n\t<br>\n\n`;
-            for (let i = 0; i < addedChanges.length; i++) {
-                // Последний элемент по желанию можем завершить точкой
-                finalList += `\t* ${addedChanges[i]}${i === addedChanges.length - 1 ? '.' : ','}\n`;
-            }
+        }
+
+        for (let i = 0; i < addedChanges.length; i++) {
+            currentIndex++;
+            // Проверяем, является ли это последний пункт *во всём* списке
+            const endChar = currentIndex === totalItems ? '.' : ',';
+            finalList += `\t* ${addedChanges[i]}${endChar}\n`;
+        }
+
+        if (addedChanges.length > 8) {
             finalList += `\n\t</details>\n`;
-        } else {
-            finalList += `* 🆕 добавлены переводы модов:\n`;
-            for (let i = 0; i < addedChanges.length; i++) {
-                finalList += `\t* ${addedChanges[i]}${i === addedChanges.length - 1 ? '.' : ','}\n`;
-            }
         }
     }
 
     // 3) Изменённые переводы
     if (modifiedChanges.length === 1) {
-        // Если ровно 1 изменение - делаем одну строку
-        finalList += `* 💱 изменён перевод мода ${modifiedChanges[0]}.\n`;
+        currentIndex++;
+        // Если этот элемент последний во всём списке — ставим точку, иначе — запятую
+        const endChar = currentIndex === totalItems ? '.' : ',';
+        finalList += `* 💱 изменён перевод мода ${modifiedChanges[0]}${endChar}\n`;
     } else if (modifiedChanges.length > 1) {
         // Если больше одного — делаем подсписок
+        finalList += `* 💱 изменены переводы модов:\n`;
+
+        // Спойлер, если более 8
         if (modifiedChanges.length > 8) {
-            finalList += `* 💱 изменены переводы модов:\n`;
             finalList += `\t<details>\n\t<summary>Раскрыть</summary>\n\t<br>\n\n`;
-            for (let i = 0; i < modifiedChanges.length; i++) {
-                finalList += `\t* ${modifiedChanges[i]}${i === modifiedChanges.length - 1 ? '.' : ','}\n`;
-            }
+        }
+
+        for (let i = 0; i < modifiedChanges.length; i++) {
+            currentIndex++;
+            const endChar = currentIndex === totalItems ? '.' : ',';
+            finalList += `\t* ${modifiedChanges[i]}${endChar}\n`;
+        }
+
+        if (modifiedChanges.length > 8) {
             finalList += `\n\t</details>\n`;
         } else {
             finalList += `* 💱 изменены переводы модов:\n`;
