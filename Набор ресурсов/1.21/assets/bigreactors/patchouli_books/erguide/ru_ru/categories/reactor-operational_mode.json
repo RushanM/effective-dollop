@@ -1,0 +1,7 @@
+{
+    "description": "Реактор может быть построен для работы в двух разных режимах: пассивное охлаждение или активное охлаждение.$(br2)Режим работы определяет, что генерирует реактор во время работы.",
+    "icon": "bigreactors:reinforced_reactorfluidport_forge_passive",
+    "name": "Режим работы",
+    "parent": "bigreactors:reactor",
+    "sortnum": 1
+}
