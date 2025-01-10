@@ -363,25 +363,43 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
     const grouped = {};
     modChanges.forEach(change => {
         // Ключ для группировки
-        const key = `${change.action}::${change.name}::${change.url}::${change.popularity}`;
-        if (!grouped[key]) {
-            grouped[key] = [];
-        }
-        grouped[key].push(change.gameVer);
-    });
+        const key = `${change.name}::${change.url}`;
 
-    // Преобразование группы в список (для сортировки и вывода)
-    let groupedList = Object.keys(grouped).map(key => {
-        const [action, name, url, popularity] = key.split('::');
-        const versions = grouped[key].map(ver => {
-            const num = parseFloat(ver) || 0;
-            return { original: ver, numeric: num };
-        });
-        return {
-            action,
+        // При формировании grouped запоминаем change, чтобы в будущем взять action и popularity:
+        if (!grouped[key]) {
+          grouped[key] = [];
+        }
+        grouped[key].push(change);
+        
+        // Далее, при преобразовании в список, собираем версии и решаем, какой action использовать
+        let groupedList = Object.keys(grouped).map(key => {
+          // В key у нас только name и url
+          const [name, url] = key.split('::');
+          
+          // Собираем все записи одного мода
+          const changesForMod = grouped[key];
+        
+          // Версии
+          const versions = changesForMod.map(ch => {
+            const num = parseFloat(ch.gameVer) || 0;
+            return { original: ch.gameVer, numeric: num };
+          });
+        
+          // Решаем, какой action в итоге ставить
+          // Например, если хоть одна версия была добавлена, считаем action - «добавлен»,
+          // в ином случае «изменён»
+          let finalAction = changesForMod.some(ch => ch.action === 'добавлен')
+            ? 'добавлен'
+            : 'изменён';
+        
+          // Берём наивысшую популярность
+          const popularityVal = Math.max(...changesForMod.map(ch => ch.popularity));
+        
+          return {
+            action: finalAction,
             name,
             url,
-            popularity: parseInt(popularity),
+            popularity: popularityVal,
             versions,
         };
     });
