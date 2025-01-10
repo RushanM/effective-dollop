@@ -4,6 +4,15 @@ name: Выпустить релиз
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_to_modrinth_and_curseforge:
+        description: 'Публиковать на Modrinth и CurseForge?'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 jobs:
   build_and_release:
