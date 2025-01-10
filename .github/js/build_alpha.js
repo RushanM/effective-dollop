@@ -367,359 +367,359 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
 
         // При формировании grouped запоминаем change, чтобы в будущем взять action и popularity:
         if (!grouped[key]) {
-          grouped[key] = [];
+            grouped[key] = [];
         }
         grouped[key].push(change);
-        
+
         // Далее, при преобразовании в список, собираем версии и решаем, какой action использовать
         let groupedList = Object.keys(grouped).map(key => {
-          // В key у нас только name и url
-          const [name, url] = key.split('::');
-          
-          // Собираем все записи одного мода
-          const changesForMod = grouped[key];
-        
-          // Версии
-          const versions = changesForMod.map(ch => {
-            const num = parseFloat(ch.gameVer) || 0;
-            return { original: ch.gameVer, numeric: num };
-          });
-        
-          // Решаем, какой action в итоге ставить
-          // Например, если хоть одна версия была добавлена, считаем action - «добавлен»,
-          // в ином случае «изменён»
-          let finalAction = changesForMod.some(ch => ch.action === 'добавлен')
-            ? 'добавлен'
-            : 'изменён';
-        
-          // Берём наивысшую популярность
-          const popularityVal = Math.max(...changesForMod.map(ch => ch.popularity));
-        
-          return {
-            action: finalAction,
-            name,
-            url,
-            popularity: popularityVal,
-            versions,
-        };
-    });
+            // В key у нас только name и url
+            const [name, url] = key.split('::');
 
-    // Сортируем по popularity, затем по названию
-    groupedList.sort((a, b) => {
-        if (b.popularity !== a.popularity) {
-            return b.popularity - a.popularity;
-        }
-        // Если популярность одинаковая, то по названию
-        return a.name.localeCompare(b.name);
-    });
+            // Собираем все записи одного мода
+            const changesForMod = grouped[key];
 
-    // Формируем строки описаний для каждой группы
-    for (const group of groupedList) {
-        const { action, name, url, versions } = group;
-        versions.sort((a, b) => a.numeric - b.numeric);
+            // Версии
+            const versions = changesForMod.map(ch => {
+                const num = parseFloat(ch.gameVer) || 0;
+                return { original: ch.gameVer, numeric: num };
+            });
 
-        if (versions.length === 1) {
-            // Если одна версия
-            const versionLabel = versions[0].original === 'b1.7.3'
-                ? versions[0].original
-                : `${versions[0].original}.x`;
-            allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
-        } else {
-            // Несколько версий
-            const start = versions[0].original;
-            const end = versions[versions.length - 1].original;
-            if (start === end) {
-                // Одинаковая версия
-                const versionLabel = start === 'b1.7.3' ? start : `${start}.x`;
+            // Решаем, какой action в итоге ставить
+            // Например, если хоть одна версия была добавлена, считаем action - «добавлен»,
+            // в ином случае «изменён»
+            let finalAction = changesForMod.some(ch => ch.action === 'добавлен')
+                ? 'добавлен'
+                : 'изменён';
+
+            // Берём наивысшую популярность
+            const popularityVal = Math.max(...changesForMod.map(ch => ch.popularity));
+
+            return {
+                action: finalAction,
+                name,
+                url,
+                popularity: popularityVal,
+                versions,
+            };
+        });
+
+        // Сортируем по popularity, затем по названию
+        groupedList.sort((a, b) => {
+            if (b.popularity !== a.popularity) {
+                return b.popularity - a.popularity;
+            }
+            // Если популярность одинаковая, то по названию
+            return a.name.localeCompare(b.name);
+        });
+
+        // Формируем строки описаний для каждой группы
+        for (const group of groupedList) {
+            const { action, name, url, versions } = group;
+            versions.sort((a, b) => a.numeric - b.numeric);
+
+            if (versions.length === 1) {
+                // Если одна версия
+                const versionLabel = versions[0].original === 'b1.7.3'
+                    ? versions[0].original
+                    : `${versions[0].original}.x`;
                 allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
             } else {
-                // Диапазон версий
-                const startLabel = start === 'b1.7.3' ? start : `${start}.x`;
-                const endLabel = end === 'b1.7.3' ? end : `${end}.x`;
-                allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${startLabel} — ${endLabel}`);
+                // Несколько версий
+                const start = versions[0].original;
+                const end = versions[versions.length - 1].original;
+                if (start === end) {
+                    // Одинаковая версия
+                    const versionLabel = start === 'b1.7.3' ? start : `${start}.x`;
+                    allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
+                } else {
+                    // Диапазон версий
+                    const startLabel = start === 'b1.7.3' ? start : `${start}.x`;
+                    const endLabel = end === 'b1.7.3' ? end : `${end}.x`;
+                    allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${startLabel} — ${endLabel}`);
+                }
             }
         }
-    }
 
-    // Формирование итогового описания изменений
-    if (allChanges.length === 1) {
-        const singleChange = allChanges[0].charAt(0).toUpperCase() + allChanges[0].slice(1);
-        description += singleChange;
-    } else if (allChanges.length > 1) {
-        description += `Изменения в этой версии:\n\n`;
-        // Перечисляем через «* »
-        allChanges.forEach((entry, index) => {
-            const isLast = index === allChanges.length - 1;
-            description += isLast ? `* ${entry}.\n` : `* ${entry},\n`;
-        });
-    }
+        // Формирование итогового описания изменений
+        if (allChanges.length === 1) {
+            const singleChange = allChanges[0].charAt(0).toUpperCase() + allChanges[0].slice(1);
+            description += singleChange;
+        } else if (allChanges.length > 1) {
+            description += `Изменения в этой версии:\n\n`;
+            // Перечисляем через «* »
+            allChanges.forEach((entry, index) => {
+                const isLast = index === allChanges.length - 1;
+                description += isLast ? `* ${entry}.\n` : `* ${entry},\n`;
+            });
+        }
 
-    return description.trim();
-}
+        return description.trim();
+    }
 
 // Функция для получения версий архивов из предыдущего выпуска
 
 async function getPreviousAssetVersions(lastTag) {
-    if (!lastTag) {
-        return {};
-    }
-    const releases = await octokit.paginate(octokit.rest.repos.listReleases, {
-        ...github.context.repo,
-        per_page: 100,
-    });
-    const lastRelease = releases.find(release => release.tag_name === lastTag);
-    const versions = {};
-
-    if (lastRelease && lastRelease.assets && lastRelease.assets.length > 0) {
-        lastRelease.assets.forEach(asset => {
-            const match = asset.name.match(/^(.*?)-((?:dev\d+|\d+(?:\.\d+)?-C\d+-B\d+-A\d+))\.zip$/);
-            if (match) {
-                const baseName = match[1];
-                const version = match[2];
-                versions[baseName] = version;
+            if (!lastTag) {
+                return {};
             }
-        });
-    }
-    console.log('Предыдущие версии архивов:', versions);
-    return versions;
-}
+            const releases = await octokit.paginate(octokit.rest.repos.listReleases, {
+                ...github.context.repo,
+                per_page: 100,
+            });
+            const lastRelease = releases.find(release => release.tag_name === lastTag);
+            const versions = {};
+
+            if (lastRelease && lastRelease.assets && lastRelease.assets.length > 0) {
+                lastRelease.assets.forEach(asset => {
+                    const match = asset.name.match(/^(.*?)-((?:dev\d+|\d+(?:\.\d+)?-C\d+-B\d+-A\d+))\.zip$/);
+                    if (match) {
+                        const baseName = match[1];
+                        const version = match[2];
+                        versions[baseName] = version;
+                    }
+                });
+            }
+            console.log('Предыдущие версии архивов:', versions);
+            return versions;
+        }
 
 // Функция для создания архивов с учётом версий файлов
 
 function createArchives(changedFiles, nextTagInfo, previousAssetVersions, lastTag) {
-    const assets = [];
-    const releasesDir = path.join(process.cwd(), 'releases');
-    if (!fs.existsSync(releasesDir)) {
-        fs.mkdirSync(releasesDir, { recursive: true });
-    }
-
-    // Создание архивов для набора ресурсов
-    const resourcePackDir = 'Набор ресурсов';
-    if (fs.existsSync(resourcePackDir)) {
-        const resourcePackVersions = fs
-            .readdirSync(resourcePackDir)
-            .filter(ver => fs.statSync(path.join(resourcePackDir, ver)).isDirectory());
-
-        resourcePackVersions.forEach(ver => {
-            const baseName = `Rus-For-Mods-${ver}`;
-            let prevVersion = previousAssetVersions[baseName];
-            const versionDir = path.join(resourcePackDir, ver);
-            const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(versionDir));
-
-            let assetVersion;
-            if (prevVersion) {
-                const prevVersionNumber = getAssetVersionNumber(prevVersion);
-                if (relatedFiles.length > 0) {
-                    assetVersion = incrementAssetVersion(prevVersionNumber);
-                } else {
-                    assetVersion = prevVersionNumber;
-                }
-            } else {
-                // Если нет предыдущей версии, начинаем с 1.0-C1-B1-AX (или devX)
-                if (lastTag && lastTag.startsWith('dev')) {
-                    const devNumber = parseInt(lastTag.slice(3));
-                    assetVersion = `1.0-C1-B1-A${devNumber}`;
-                } else {
-                    assetVersion = nextTagInfo.tag;
-                }
+            const assets = [];
+            const releasesDir = path.join(process.cwd(), 'releases');
+            if (!fs.existsSync(releasesDir)) {
+                fs.mkdirSync(releasesDir, { recursive: true });
             }
 
-            const archiveName = `${baseName}-${assetVersion}.zip`;
-            const outputPath = path.join(releasesDir, archiveName);
-            const zip = new AdmZip();
+            // Создание архивов для набора ресурсов
+            const resourcePackDir = 'Набор ресурсов';
+            if (fs.existsSync(resourcePackDir)) {
+                const resourcePackVersions = fs
+                    .readdirSync(resourcePackDir)
+                    .filter(ver => fs.statSync(path.join(resourcePackDir, ver)).isDirectory());
 
-            // Добавление в ZIP
-            const assetsPath = path.join(versionDir, 'assets');
-            if (fs.existsSync(assetsPath)) {
-                zip.addLocalFolder(assetsPath, 'assets');
+                resourcePackVersions.forEach(ver => {
+                    const baseName = `Rus-For-Mods-${ver}`;
+                    let prevVersion = previousAssetVersions[baseName];
+                    const versionDir = path.join(resourcePackDir, ver);
+                    const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(versionDir));
+
+                    let assetVersion;
+                    if (prevVersion) {
+                        const prevVersionNumber = getAssetVersionNumber(prevVersion);
+                        if (relatedFiles.length > 0) {
+                            assetVersion = incrementAssetVersion(prevVersionNumber);
+                        } else {
+                            assetVersion = prevVersionNumber;
+                        }
+                    } else {
+                        // Если нет предыдущей версии, начинаем с 1.0-C1-B1-AX (или devX)
+                        if (lastTag && lastTag.startsWith('dev')) {
+                            const devNumber = parseInt(lastTag.slice(3));
+                            assetVersion = `1.0-C1-B1-A${devNumber}`;
+                        } else {
+                            assetVersion = nextTagInfo.tag;
+                        }
+                    }
+
+                    const archiveName = `${baseName}-${assetVersion}.zip`;
+                    const outputPath = path.join(releasesDir, archiveName);
+                    const zip = new AdmZip();
+
+                    // Добавление в ZIP
+                    const assetsPath = path.join(versionDir, 'assets');
+                    if (fs.existsSync(assetsPath)) {
+                        zip.addLocalFolder(assetsPath, 'assets');
+                    }
+
+                    // Добавление файлов из папки версии
+                    ['pack.mcmeta', 'dynamicmcpack.json', 'respackopts.json5'].forEach(fileName => {
+                        const filePath = path.join(versionDir, fileName);
+                        if (fs.existsSync(filePath)) {
+                            zip.addLocalFile(filePath, '', fileName);
+                        }
+                    });
+
+                    // Общие файлы
+                    if (fs.existsSync('Набор ресурсов/pack.png')) {
+                        zip.addLocalFile('Набор ресурсов/pack.png');
+                    }
+                    if (fs.existsSync('Набор ресурсов/peruse_or_bruise.txt')) {
+                        zip.addLocalFile('Набор ресурсов/peruse_or_bruise.txt');
+                    }
+
+                    zip.writeZip(outputPath);
+                    console.log(`Создан архив: ${outputPath}`);
+
+                    assets.push({
+                        path: outputPath,
+                        name: archiveName,
+                    });
+                });
             }
 
-            // Добавление файлов из папки версии
-            ['pack.mcmeta', 'dynamicmcpack.json', 'respackopts.json5'].forEach(fileName => {
-                const filePath = path.join(versionDir, fileName);
-                if (fs.existsSync(filePath)) {
-                    zip.addLocalFile(filePath, '', fileName);
-                }
-            });
+            // Аналогичная логика для «Наборы шейдеров»
+            const shaderPacksDir = 'Наборы шейдеров';
+            if (fs.existsSync(shaderPacksDir)) {
+                const shaderPacks = fs
+                    .readdirSync(shaderPacksDir)
+                    .filter(pack => fs.statSync(path.join(shaderPacksDir, pack)).isDirectory());
 
-            // Общие файлы
-            if (fs.existsSync('Набор ресурсов/pack.png')) {
-                zip.addLocalFile('Набор ресурсов/pack.png');
-            }
-            if (fs.existsSync('Набор ресурсов/peruse_or_bruise.txt')) {
-                zip.addLocalFile('Набор ресурсов/peruse_or_bruise.txt');
-            }
+                shaderPacks.forEach(pack => {
+                    const baseName = `${pack.replace(/\s+/g, '-')}-Russian-Translation`;
+                    let prevVersion = previousAssetVersions[baseName];
 
-            zip.writeZip(outputPath);
-            console.log(`Создан архив: ${outputPath}`);
+                    // Проверка, изменились ли файлы в этом наборе шейдеров
+                    const packDir = path.join(shaderPacksDir, pack);
+                    const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(packDir));
 
-            assets.push({
-                path: outputPath,
-                name: archiveName,
-            });
-        });
-    }
+                    let assetVersion;
+                    if (prevVersion) {
+                        // Извлечение номера предыдущей версии
+                        const prevVersionNumber = getAssetVersionNumber(prevVersion);
 
-    // Аналогичная логика для «Наборы шейдеров»
-    const shaderPacksDir = 'Наборы шейдеров';
-    if (fs.existsSync(shaderPacksDir)) {
-        const shaderPacks = fs
-            .readdirSync(shaderPacksDir)
-            .filter(pack => fs.statSync(path.join(shaderPacksDir, pack)).isDirectory());
+                        if (relatedFiles.length > 0) {
+                            // Увеличение версии
+                            assetVersion = incrementAssetVersion(prevVersionNumber);
+                        } else {
+                            // Оставляем версию прежней
+                            assetVersion = prevVersionNumber;
+                        }
+                    } else {
+                        // Если нет предыдущей версии, начинаем с 1-й альфы или используем версию из dev
+                        if (lastTag && lastTag.startsWith('dev')) {
+                            const devNumber = parseInt(lastTag.slice(3));
+                            assetVersion = `1.0-C1-B1-A${devNumber}`;
+                        } else {
+                            assetVersion = nextTagInfo.tag;
+                        }
+                    }
 
-        shaderPacks.forEach(pack => {
-            const baseName = `${pack.replace(/\s+/g, '-')}-Russian-Translation`;
-            let prevVersion = previousAssetVersions[baseName];
+                    const archiveName = `${baseName}-${assetVersion}.zip`;
+                    const outputPath = path.join(releasesDir, archiveName);
 
-            // Проверка, изменились ли файлы в этом наборе шейдеров
-            const packDir = path.join(shaderPacksDir, pack);
-            const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(packDir));
+                    const zip = new AdmZip();
+                    zip.addLocalFolder(packDir);
+                    zip.writeZip(outputPath);
 
-            let assetVersion;
-            if (prevVersion) {
-                // Извлечение номера предыдущей версии
-                const prevVersionNumber = getAssetVersionNumber(prevVersion);
+                    console.log(`Создан архив: ${outputPath}`);
 
-                if (relatedFiles.length > 0) {
-                    // Увеличение версии
-                    assetVersion = incrementAssetVersion(prevVersionNumber);
-                } else {
-                    // Оставляем версию прежней
-                    assetVersion = prevVersionNumber;
-                }
-            } else {
-                // Если нет предыдущей версии, начинаем с 1-й альфы или используем версию из dev
-                if (lastTag && lastTag.startsWith('dev')) {
-                    const devNumber = parseInt(lastTag.slice(3));
-                    assetVersion = `1.0-C1-B1-A${devNumber}`;
-                } else {
-                    assetVersion = nextTagInfo.tag;
-                }
+                    assets.push({
+                        path: outputPath,
+                        name: archiveName,
+                    });
+                });
             }
 
-            const archiveName = `${baseName}-${assetVersion}.zip`;
-            const outputPath = path.join(releasesDir, archiveName);
+            // Аналогичная логика для «Сборки»
+            const modpacksDir = 'Сборки';
+            if (fs.existsSync(modpacksDir)) {
+                const modpacks = fs
+                    .readdirSync(modpacksDir)
+                    .filter(modpack => {
+                        const translationPath = path.join(modpacksDir, modpack, 'Перевод');
+                        return fs.existsSync(translationPath) && fs.statSync(translationPath).isDirectory();
+                    });
 
-            const zip = new AdmZip();
-            zip.addLocalFolder(packDir);
-            zip.writeZip(outputPath);
+                modpacks.forEach(modpack => {
+                    const baseName = `${modpack.replace(/\s+/g, '-')}-Russian-Translation`;
+                    let prevVersion = previousAssetVersions[baseName];
 
-            console.log(`Создан архив: ${outputPath}`);
+                    // Проверка, изменились ли файлы в этой сборке
+                    const packDir = path.join(modpacksDir, modpack, 'Перевод');
+                    const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(packDir));
 
-            assets.push({
-                path: outputPath,
-                name: archiveName,
-            });
-        });
-    }
+                    let assetVersion;
+                    if (prevVersion) {
+                        // Извлечение номера предыдущей версии
+                        const prevVersionNumber = getAssetVersionNumber(prevVersion);
 
-    // Аналогичная логика для «Сборки»
-    const modpacksDir = 'Сборки';
-    if (fs.existsSync(modpacksDir)) {
-        const modpacks = fs
-            .readdirSync(modpacksDir)
-            .filter(modpack => {
-                const translationPath = path.join(modpacksDir, modpack, 'Перевод');
-                return fs.existsSync(translationPath) && fs.statSync(translationPath).isDirectory();
-            });
+                        if (relatedFiles.length > 0) {
+                            // Увеличение версии
+                            assetVersion = incrementAssetVersion(prevVersionNumber);
+                        } else {
+                            // Оставляем версию прежней
+                            assetVersion = prevVersionNumber;
+                        }
+                    } else {
+                        // Если нет предыдущей версии, начинаем с 1-й альфы или используем версию из dev
+                        if (lastTag && lastTag.startsWith('dev')) {
+                            const devNumber = parseInt(lastTag.slice(3));
+                            assetVersion = `1.0-C1-B1-A${devNumber}`;
+                        } else {
+                            assetVersion = nextTagInfo.tag;
+                        }
+                    }
 
-        modpacks.forEach(modpack => {
-            const baseName = `${modpack.replace(/\s+/g, '-')}-Russian-Translation`;
-            let prevVersion = previousAssetVersions[baseName];
+                    const archiveName = `${baseName}-${assetVersion}.zip`;
+                    const outputPath = path.join(releasesDir, archiveName);
 
-            // Проверка, изменились ли файлы в этой сборке
-            const packDir = path.join(modpacksDir, modpack, 'Перевод');
-            const relatedFiles = changedFiles.filter(file => file.filePath.startsWith(packDir));
+                    const zip = new AdmZip();
+                    zip.addLocalFolder(packDir);
+                    zip.writeZip(outputPath);
 
-            let assetVersion;
-            if (prevVersion) {
-                // Извлечение номера предыдущей версии
-                const prevVersionNumber = getAssetVersionNumber(prevVersion);
+                    console.log(`Создан архив: ${outputPath}`);
 
-                if (relatedFiles.length > 0) {
-                    // Увеличение версии
-                    assetVersion = incrementAssetVersion(prevVersionNumber);
-                } else {
-                    // Оставляем версию прежней
-                    assetVersion = prevVersionNumber;
-                }
-            } else {
-                // Если нет предыдущей версии, начинаем с 1-й альфы или используем версию из dev
-                if (lastTag && lastTag.startsWith('dev')) {
-                    const devNumber = parseInt(lastTag.slice(3));
-                    assetVersion = `1.0-C1-B1-A${devNumber}`;
-                } else {
-                    assetVersion = nextTagInfo.tag;
-                }
+                    assets.push({
+                        path: outputPath,
+                        name: archiveName,
+                    });
+                });
             }
 
-            const archiveName = `${baseName}-${assetVersion}.zip`;
-            const outputPath = path.join(releasesDir, archiveName);
-
-            const zip = new AdmZip();
-            zip.addLocalFolder(packDir);
-            zip.writeZip(outputPath);
-
-            console.log(`Создан архив: ${outputPath}`);
-
-            assets.push({
-                path: outputPath,
-                name: archiveName,
-            });
-        });
-    }
-
-    return assets;
-}
+            return assets;
+        }
 
 // Функция для извлечения номера версии из названия архива
 function getAssetVersionNumber(version) {
-    // Если тег devNN
-    if (version.startsWith('dev')) {
-        return version.replace('dev', '1.0-C1-B1-A');
-    }
-    return version;
-}
+            // Если тег devNN
+            if (version.startsWith('dev')) {
+                return version.replace('dev', '1.0-C1-B1-A');
+            }
+            return version;
+        }
 
 // Функция для увеличения версии
 function incrementAssetVersion(version) {
-    // Ищем паттерн: 1.0-C1-B1-A1
-    const match = version.match(/^(\d+)(?:\.(\d+))?-C(\d+)-B(\d+)-A(\d+)$/);
-    if (match) {
-        const releaseNumMain = parseInt(match[1]);
-        const releaseNumMinor = match[2] ? parseInt(match[2]) : 0;
-        const candidateNum = parseInt(match[3]);
-        const betaNum = parseInt(match[4]);
-        const alphaNum = parseInt(match[5]) + 1;
-        return `${releaseNumMain}.${releaseNumMinor}-C${candidateNum}-B${betaNum}-A${alphaNum}`;
-    }
-    return version; // Если формат не соответствует, возвращаем исходную версию
-}
+            // Ищем паттерн: 1.0-C1-B1-A1
+            const match = version.match(/^(\d+)(?:\.(\d+))?-C(\d+)-B(\d+)-A(\d+)$/);
+            if (match) {
+                const releaseNumMain = parseInt(match[1]);
+                const releaseNumMinor = match[2] ? parseInt(match[2]) : 0;
+                const candidateNum = parseInt(match[3]);
+                const betaNum = parseInt(match[4]);
+                const alphaNum = parseInt(match[5]) + 1;
+                return `${releaseNumMain}.${releaseNumMinor}-C${candidateNum}-B${betaNum}-A${alphaNum}`;
+            }
+            return version; // Если формат не соответствует, возвращаем исходную версию
+        }
 
 // Функция для создания выпуска на Гитхабе
 async function createRelease(tagInfo, releaseNotes, assets) {
-    const releaseResponse = await octokit.rest.repos.createRelease({
-        ...github.context.repo,
-        tag_name: tagInfo.tag,
-        target_commitish: github.context.sha,
-        name: tagInfo.title,
-        body: releaseNotes,
-        draft: false,
-        prerelease: true,
-    });
+            const releaseResponse = await octokit.rest.repos.createRelease({
+                ...github.context.repo,
+                tag_name: tagInfo.tag,
+                target_commitish: github.context.sha,
+                name: tagInfo.title,
+                body: releaseNotes,
+                draft: false,
+                prerelease: true,
+            });
 
-    const uploadUrl = releaseResponse.data.upload_url;
-    for (const asset of assets) {
-        const content = fs.readFileSync(asset.path);
-        await octokit.rest.repos.uploadReleaseAsset({
-            url: uploadUrl,
-            headers: {
-                'content-type': 'application/zip',
-                'content-length': content.length,
-            },
-            name: asset.name,
-            data: content,
-        });
-        console.log(`Загружен ассет: ${asset.name}`);
-    }
-}
+            const uploadUrl = releaseResponse.data.upload_url;
+            for (const asset of assets) {
+                const content = fs.readFileSync(asset.path);
+                await octokit.rest.repos.uploadReleaseAsset({
+                    url: uploadUrl,
+                    headers: {
+                        'content-type': 'application/zip',
+                        'content-length': content.length,
+                    },
+                    name: asset.name,
+                    data: content,
+                });
+                console.log(`Загружен ассет: ${asset.name}`);
+            }
+        }
