@@ -379,7 +379,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         // Ключ для группировки
         const key = `${change.name}::${change.url}`;
 
-        // При формировании grouped запоминаем change, чтобы в будущем взять action и popularity:
+        // При формировании grouped запоминаем change, чтобы потом взять action и popularity:
         if (!grouped[key]) {
             grouped[key] = [];
         }
@@ -388,7 +388,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
 
     // Далее, при преобразовании в список, собираем версии и решаем, какой action использовать
     let groupedList = Object.keys(grouped).map(key => {
-        // В key у нас только name и url
+        // В key у нас: name и url
         const [name, url] = key.split('::');
 
         // Собираем все записи одного мода
@@ -419,7 +419,7 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         };
     });
 
-    // Сортируем по popularity, затем по названию
+    // Сортируем по популярности, затем по названию
     groupedList.sort((a, b) => {
         if (b.popularity !== a.popularity) {
             return b.popularity - a.popularity;
@@ -433,43 +433,121 @@ async function generateReleaseNotes(changedFiles, sheets, nextTagInfo, lastTag) 
         const { action, name, url, versions } = group;
         versions.sort((a, b) => a.numeric - b.numeric);
 
+        // Преобразуем единственную или диапазон версий в удобочитаемый вид
+        let versionText;
         if (versions.length === 1) {
-            // Если одна версия
-            const versionLabel = versions[0].original === 'b1.7.3'
-                ? versions[0].original
-                : `${versions[0].original}.x`;
-            allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
+            versionText =
+                versions[0].original === 'b1.7.3'
+                    ? versions[0].original
+                    : `${versions[0].original}.x`;
         } else {
-            // Несколько версий
             const start = versions[0].original;
             const end = versions[versions.length - 1].original;
             if (start === end) {
-                // Одинаковая версия
-                const versionLabel = start === 'b1.7.3' ? start : `${start}.x`;
-                allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${versionLabel}`);
+                versionText =
+                    start === 'b1.7.3' ? start : `${start}.x`;
             } else {
-                // Диапазон версий
                 const startLabel = start === 'b1.7.3' ? start : `${start}.x`;
                 const endLabel = end === 'b1.7.3' ? end : `${end}.x`;
-                allChanges.push(`${action} перевод мода [${name}](${url}) на Minecraft ${startLabel} — ${endLabel}`);
+                versionText = `${startLabel} — ${endLabel}`;
+            }
+        }
+
+        const line = `${action} перевод мода [${name}](${url}) на Minecraft ${versionText}`;
+        allChanges.push(line);
+    }
+
+    // Ниже идёт логика формирования финального списка изменений
+    // с использованием эмодзи, подсписков и спойлеров.
+
+    // Подготовим массивы для трёх типов изменений:
+    const flagChanges = [];       // «начат перевод...»
+    const addedChanges = [];      // «добавлен перевод...»
+    const modifiedChanges = [];   // «изменён перевод...»
+
+    // Разложим allChanges по категориям:
+    for (const item of allChanges) {
+        // Для b1.7.3 мы ищем начало строки «начат перевод»
+        if (item.startsWith('начат перевод модов для Minecraft')) {
+            // Заменяем на «🚩…»
+            const replaced = item.replace('начат перевод', '🚩 начат перевод');
+            flagChanges.push(replaced);
+            continue;
+        }
+        // Для добавленных
+        if (item.startsWith('добавлен перевод мода')) {
+            // Уберём «добавлен перевод мода», а оставим всё после него
+            // например: «добавлен перевод мода [Xaero's…] на Minecraft 1.21.x»
+            addedChanges.push(item.replace('добавлен перевод мода ', ''));
+            continue;
+        }
+        // Для изменённых
+        if (item.startsWith('изменён перевод мода')) {
+            modifiedChanges.push(item.replace('изменён перевод мода ', ''));
+            continue;
+        }
+
+        // Если по какой-то причине что-то не подошло, просто кладём в modifiedChanges
+        // (или можно положить в отдельную категорию)
+        modifiedChanges.push(item);
+    }
+
+    // Начинаем формировать итоговый блок: «Изменения в этой версии:»
+    let finalList = `Изменения в этой версии:\n\n`;
+
+    // 1) Начат перевод (флажок) — каждая строка отдельный пункт
+    for (const fc of flagChanges) {
+        finalList += `* ${fc},\n`;
+    }
+
+    // 2) Добавленные переводы
+    if (addedChanges.length === 1) {
+        // Если ровно 1 добавление — делаем одну строку
+        finalList += `* 🆕 добавлен перевод мода ${addedChanges[0]},\n`;
+    } else if (addedChanges.length > 1) {
+        // Если больше одного — делаем подсписок
+        // Проверяем, нужно ли складывать список в спойлер (если > 8)
+        if (addedChanges.length > 8) {
+            finalList += `* 🆕 добавлены переводы модов:\n`;
+            finalList += `\t<details>\n\t<summary>Раскрыть</summary>\n\t<br>\n\n`;
+            for (let i = 0; i < addedChanges.length; i++) {
+                // Последний элемент по желанию можем завершить точкой
+                finalList += `\t* ${addedChanges[i]}${i === addedChanges.length - 1 ? '.' : ','}\n`;
+            }
+            finalList += `\n\t</details>\n`;
+        } else {
+            finalList += `* 🆕 добавлены переводы модов:\n`;
+            for (let i = 0; i < addedChanges.length; i++) {
+                finalList += `\t* ${addedChanges[i]}${i === addedChanges.length - 1 ? '.' : ','}\n`;
             }
         }
     }
 
-    // Формирование итогового описания изменений
-    if (allChanges.length === 1) {
-        const singleChange = allChanges[0].charAt(0).toUpperCase() + allChanges[0].slice(1);
-        description += singleChange;
-    } else if (allChanges.length > 1) {
-        description += `Изменения в этой версии:\n\n`;
-        // Перечисляем через «* »
-        allChanges.forEach((entry, index) => {
-            const isLast = index === allChanges.length - 1;
-            description += isLast ? `* ${entry}.\n` : `* ${entry},\n`;
-        });
+    // 3) Изменённые переводы
+    if (modifiedChanges.length === 1) {
+        // Если ровно 1 изменение - делаем одну строку
+        finalList += `* 💱 изменён перевод мода ${modifiedChanges[0]}.\n`;
+    } else if (modifiedChanges.length > 1) {
+        // Если больше одного — делаем подсписок
+        if (modifiedChanges.length > 8) {
+            finalList += `* 💱 изменены переводы модов:\n`;
+            finalList += `\t<details>\n\t<summary>Раскрыть</summary>\n\t<br>\n\n`;
+            for (let i = 0; i < modifiedChanges.length; i++) {
+                finalList += `\t* ${modifiedChanges[i]}${i === modifiedChanges.length - 1 ? '.' : ','}\n`;
+            }
+            finalList += `\n\t</details>\n`;
+        } else {
+            finalList += `* 💱 изменены переводы модов:\n`;
+            for (let i = 0; i < modifiedChanges.length; i++) {
+                finalList += `\t* ${modifiedChanges[i]}${i === modifiedChanges.length - 1 ? '.' : ','}\n`;
+            }
+        }
     }
 
-    return description.trim();
+    // Убираем лишнюю запятую/перенос в конце, если остался
+    finalList = finalList.trim();
+
+    return finalList;
 }
 
 // Функция для получения версий архивов из предыдущего выпуска
