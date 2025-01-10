@@ -145,7 +145,7 @@
 				item: "villagersplus:oceanographer_table"
 				type: "item"
 			}]
-			title: "Сделайте &bАквариум"
+			title: "Сделайте &bаквариум"
 			x: 11.0d
 			y: -2.0d
 		}
