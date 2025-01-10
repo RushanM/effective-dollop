@@ -9,3 +9,18 @@ jobs:
   build_and_release:
     name: Сборка и выпуск
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Клонирование репозитория
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Установка Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+
+      - name: Установка зависимостей
+        run: npm install
+        working-directory: .github
