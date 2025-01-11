@@ -36,5 +36,5 @@
     "waterframes.remote.distance.failed": "Вы далеко",
     "waterframes.remote.unbound.success": "Пульт успешно отвязан",
     "waterframes.status": "Состояние: %s",
-    "waterframes.status.loading": "Загрузка",
+    "waterframes.status.loading": "Загрузка"
 }

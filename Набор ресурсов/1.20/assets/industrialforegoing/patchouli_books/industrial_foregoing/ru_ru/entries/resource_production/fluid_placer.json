@@ -1,16 +1,17 @@
 {
-  "name": "Жидкостный разместитель",
-  "icon": "industrialforegoing:fluid_placer",
-  "category": "industrialforegoing:resource_production",
-  "sortnum": 4,
-  "read_by_default": true,
-  "pages": [
-    {
-      "type": "text",
-      "text": "Он размещает жидкости.$(br2)Он разместит жидкость из внутреннего контейнера и использует $(6)1000$() RF."
-    {
-      "type": "crafting",
-      "recipe": "industrialforegoing:fluid_placer"
-    }
-  ]
+    "category": "industrialforegoing:resource_production",
+    "icon": "industrialforegoing:fluid_placer",
+    "name": "Жидкостный разместитель",
+    "pages": [
+        {
+            "text": "Он размещает жидкости.$(br2)Он разместит жидкость из внутреннего контейнера и использует $(6)1000$() RF.",
+            "type": "text"
+        },
+        {
+            "recipe": "industrialforegoing:fluid_placer",
+            "type": "crafting"
+        }
+    ],
+    "read_by_default": true,
+    "sortnum": 4
 }
