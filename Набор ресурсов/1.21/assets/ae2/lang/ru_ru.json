@@ -276,7 +276,7 @@
     "item.ae2.entropy_manipulator": "Манипулятор энтропии",
     "item.ae2.export_bus": "Экспортирующая шина на ЭМ",
     "item.ae2.facade": "Кабельный фасад",
-    "item.ae2.fe_p2p_tunnel": "Тоннель из точки в точку на фордж-энергии",
+    "item.ae2.fe_p2p_tunnel": "Энерготоннель из точки в точку",
     "item.ae2.fluid_cell_housing": "Корпус для гидроячейки на ЭМ",
     "item.ae2.fluid_p2p_tunnel": "Гидротоннель из точки в точку",
     "item.ae2.fluid_storage_cell_16k": "Гидроячейка хранения на ЭМ в 16000 единиц",

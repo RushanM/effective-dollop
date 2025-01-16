@@ -137,7 +137,7 @@
   "config.waila.plugin_minecraft.inventory": "Инвентарь",
   "jade.locked": "Инвентарь заблокирован",
   "jade.not_generated": "Инвентарь не сгенерирован",
-  "config.waila.plugin_minecraft.fe": "Фордж-энергия",
+  "config.waila.plugin_minecraft.fe": "Энергия Forge",
   "jade.fe": "%s/%s",
   "config.waila.plugin_minecraft.fluid": "Резервуар для жидкости",
   "jade.fluid": "%s %s",

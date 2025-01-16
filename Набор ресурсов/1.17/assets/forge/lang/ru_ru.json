@@ -86,7 +86,7 @@
     "fml.menu.mods.title": "Моды",
     "fml.menu.mods.z_to_a": "Я-А",
     "fml.menu.multiplayer.clientoutdated": "Сеть клиента Forge устарела",
-    "fml.menu.multiplayer.compatible": "Совместимый фордж-сервер\nИмеет {0,choice,1#один мод|1<{0} модов}",
+    "fml.menu.multiplayer.compatible": "Совместимый сервер на Forge\nИмеет {0,choice,1#один мод|1<{0} модов}",
     "fml.menu.multiplayer.extraservermods": "Сервер имеет дополнительные моды, которые могут потребоваться на клиенте",
     "fml.menu.multiplayer.incompatible": "Несовместимый сервер на Forge",
     "fml.menu.multiplayer.incompatible.extra": "Несовместимый сервер на Forge\n{0}",

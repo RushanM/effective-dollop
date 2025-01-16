@@ -56,7 +56,7 @@
   "config.waila.plugin_minecraft.effective_tool": "Эффективный инструмент",
   "config.waila.plugin_minecraft.effects": "Эффекты сущности",
   "config.waila.plugin_minecraft.ench_power": "Сила зачарования",
-  "config.waila.plugin_minecraft.fe": "Фордж-энергия",
+  "config.waila.plugin_minecraft.fe": "Энергия Forge",
   "config.waila.plugin_minecraft.fluid": "Резервуар для жидкости",
   "config.waila.plugin_minecraft.harvest_tool": "Добывающий инструмент",
   "config.waila.plugin_minecraft.harvest_tool_new_line": "Инструмент на новой строчке",
