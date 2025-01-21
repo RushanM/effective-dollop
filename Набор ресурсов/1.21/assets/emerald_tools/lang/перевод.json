@@ -1,0 +1,177 @@
+{
+    "Wooden TreeAxe": "Деревянный топор дровосека",
+    "Iron TreeAxe": "Железный топор дровосека",
+    "Golden TreeAxe": "Золотой топор дровосека",
+    "Diamond TreeAxe": "Алмазный топор дровосека",
+    "Netherite TreeAxe": "Незеритовый топор дровосека",
+    "Emerald TreeAxe": "Изумрудный топор дровосека",
+    "Ruby TreeAxe": "Рубиновый топор дровосека",
+    "Steel TreeAxe": "Стальной топор дровосека",
+    "Obsidian TreeAxe": "Обсидиановый топор дровосека",
+    "Amethyst TreeAxe": "Аметистовый топор дровосека",
+    "Copper TreeAxe": "Медный топор дровосека",
+    "Will attempt to bring tree down": "Пытается срубить одно дерево полностью.",
+    "Wooden Paxel": "Деревянный мульти-инструмент",
+    "Iron Paxel": "Железный мульти-инструмент",
+    "Golden Paxel": "Золотой мульти-инструмент",
+    "Diamond Paxel": "Алмазный мульти-инструмент",
+    "Netherite Paxel": "Незеритовый мульти-инструмент",
+    "Emerald Paxel": "Изумрудный мульти-инструмент",
+    "Ruby Paxel": "Рубиновый мульти-инструмент",
+    "Steel Paxel": "Стальной мульти-инструмент",
+    "Obsidian Paxel": "Обсидиановый мульти-инструмент",
+    "Amethyst Paxel": "Аметистовый мульти-инструмент",
+    "Copper Paxel": "Медный мульти-инструмент",
+    "Combines Axe, Shove, and Pickaxe": "Соеденяет топор, лопату и кирку",
+    "Emerald Pickaxe": "Изумрудная кирка",
+    "Obsidian Pickaxe": "Обсидиановая кирка",
+    "Copper Pickaxe": "Медная кирка",
+    "Steel Pickaxe": "Стальная кирка",
+    "Ruby Pickaxe": "Рубиновая кирка",
+    "Ruby-Steel Pickaxe": "Рубиново-стальная кирка",
+    "Ruby": "Рубин
+    "Steel Ingot": "Стальной слиток
+    "Bow Smithing Template": "Кузнечный шаблон для улучшения лука
+    "Pickaxe Smithing Template": "Кузнечный шаблон для улучшения кирки
+    "Sword Smithing Template": "Кузнечный шаблон для улучшения меча
+    "Armor Smithing Template": "Кузнечный шаблон для улучшения брони
+    "Wooden Hammer": "Деревянный молот
+    "Iron Hammer": "Железный молот
+    "Golden Hammer": "Золотой молот
+    "Diamond Hammer": "Алмазный молот
+    "Netherite Hammer": "Незеритовый молот
+Emerald Hammer": "Изумрудный молот
+Ruby Hammer": "Рубиновый молот
+Steel Hammer": "Стальной молот
+Obsidian Hammer": "Обсидиановый молот
+Amethyst Hammer": "Аметистовый молот
+Copper Hammer": "Медный молот
+Их описание: A 3x3 Pickaxe": "Этот инструмент как кирка, но ломает 3 на 3 блока.
+
+Лопаты строителя
+
+Wooden Excavator": "Деревянная лопата строителя
+Iron Excavator": "Деревянная лопата строителя
+Golden Excavator": "Золотая лопата строителя
+Diamond Excavator": "Алмазная лопата строителя
+Netherite Excavator": "Незеритовая лопата строителя
+Emerald Excavator": "Изумрудная лопата строителя
+Ruby Excavator": "Рубиновая лопата строителя
+Steel Excavator": "Стальная лопата строителя
+Obsidian Excavator": "Обсидиановая лопата строителя
+Amethyst Excavator": "Аметистовая лопата строителя
+Copper Excavator": "Медная лопата строителя
+Их описание: A 3x3 Shovel": "Эта лопата необычная и она ломает 3 на 3 блока.
+
+Стрелы
+
+Amethyst Arrow": "Аметистовая стрела
+ Damage +2.0": "Урон +2.0
+ Piercing +1": "Пронзание +1
+
+Diamond Arrow": "Алмазная стрела
+ Damage +2.5": "Урон +2.5
+ Piercing +2": "Пронзание +2
+
+Emerald Arrow": "Изумрудная стрела
+ Damage +1.0": "Урон +1.0
+ Piercing +1": "Пронзание +1
+
+Ruby Arrow": "Рубиновая стрела
+ Damage +1.0": "Урон +1.5
+ Piercing +1": "Пронзание +1
+
+Аметистовая броня
+
+Amethyst Helmet": "Аметистовый шлем
+Amethyst Chestplate": "Аметистовый нагрудник
+Amethyst Leggings": "Аметистовые поножи
+Amethyst Boots": "Аметистовые ботинки
+
+Обсидиановая броня
+
+Obsidian Helmet": "Обсидиановый шлем
+Obsidian Chestplate": "Обсидиановый нагрудник
+Obsidian Leggings": "Обсидиановые поножи
+Obsidian Boots": "Обсидиановые ботинки
+
+Рубиновая броня
+
+Ruby Helmet": "Рубиновый шлем
+Ruby Chestplate": "Рубиновый нагрудник
+Ruby Leggings": "Рубиновые поножи
+Ruby Boots": "Рубиновые ботинки
+
+Медная броня
+
+Copper Helmet": "Медный шлем
+Copper Chestplate": "Медный нагрудник
+Copper Leggings": "Медные поножи
+Copper Boots": "Медные ботинки
+
+Стальная броня
+
+Steel Helmet": "Стальной шлем
+Steel Chestplate": "Стальной нагрудник
+Steel Leggings": "Стальные поножи
+Steel Boots": "Стальные ботинки
+
+Мечи
+
+Copper Sword": "Медный меч
+Emerald Sword": "Изумрудный меч 
+Obsidian Sword": "Обсидиановый меч
+Steel Sword": "Стальной меч 
+Amethyst Sword": "Аметистовый меч
+Ruby Sword": "Рубиновый меч
+Ruby-Steel Sword": "Рубиново-стальной меч
+
+Блоки
+
+Ruby Block": "Рубиновый блок
+Steel Block": "Стальной блок
+
+Луки
+
+Iron Bow": "Железный лук
+Golden Bow": "Золотой лук
+Diamond Bow": "Алмазный лук
+Netherite Bow": "Незеритовый лук
+Emerald Bow": "Изумрудный лук 
+Steel Bow": "Стальной лук
+Amethyst Bow": "Аметистовый лук
+Copper Bow": "Медный лук
+Ruby Bow": "Рубиновый лук
+Obsidian Bow": "Обсидиановый лук
+
+Лопаты
+
+Emerald Shovel": "Изумрудная лопата
+Ruby Shovel": "Рубиновая лопата
+Ruby-Steel Shovel": "Рубиново-стальная лопата
+Steel Shovel": "Стальная лопата
+Copper Shovel": "Медная лопата
+Obsidian Shovel": "Обсидиановая лопата
+Amethyst Shovel": "Аметистовая лопата
+
+Топоры
+
+Emerald Axe": "Изумрудный топор
+Ruby Axe": "Рубиновый топор
+Ruby-Steel Axe": "Рубиново-стальной топор
+Steel Axe": "Стальной топор
+Copper Axe": "Медный топор
+Obsidian Axe": "Обсидиановый топор
+Amethyst Axe": "Аметистовый топор
+
+Мотыги
+
+Emerald Hoe": "Изумрудная мотыга
+Ruby Hoe": "Рубиновая мотыга
+Ruby-Steel Hoe": "Рубиново-стальная мотыга
+Steel Hoe": "Стальная мотыга
+Copper Hoe": "Медная мотыга
+Obsidian Hoe": "Обсидиановая мотыга
+Amethyst Hoe": "Аметистовая мотыга
+
+Перевод мода Easy Emerald Tools & More версии игры 1.21 от Бролекса (Вовасик)
