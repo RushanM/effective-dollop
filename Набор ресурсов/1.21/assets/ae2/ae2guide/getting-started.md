@@ -5,12 +5,12 @@ navigation:
 ---
 
 <div class="notification is-info">
-  Следующая информация относится только к Applied Energistics 2 для версий Minecraft 1.20 и выше.
+  Следующая информация относится только к Applied Energistics 2 на Minecraft 1.20 и новее.
 </div>
 
 # Начинаем
 
-## Достаём первые материалы
+## Получение первых материалов
 
 <GameScene zoom="4" background="transparent">
   <ImportStructure src="assets/assemblies/meteor_interior.snbt" />
@@ -23,58 +23,51 @@ navigation:
 
 Вскопайте истиннокварцевые друзы и все блоки истинного кварца, что найдёте. Также вы можете забрать блоки цветущего истинного кварца, но без шёлкового касания они немного потеряют целостность.
 
-Не ломайте безупречный цветущий истинный кварц, так как даже с шёлковым касанием он потеряет целостность и станет дефектным, после чего его невозможно будет восстановить до безупречного состояния.
+Не ломайте безупречный цветущий истинный кварц, так как даже с «Шёлковым касанием» он потеряет целостность и станет дефектным, после чего его невозможно будет восстановить до безупречного состояния.
 
 Что вам следует сломать в любом случае — это таинственный куб в центре метеорита. Сломав его, вы получите все 4 пресс-формы для прессователя.
 
-## Выращиваем истинный кварц
+## Выращивание истинного кварца
 
 <GameScene zoom="4" background="transparent">
 <ImportStructure src="assets/assemblies/budding_certus_1.snbt" />
 </GameScene>
 
-Certus quartz buds will sprout from [budding certus blocks](items-blocks-machines/budding_certus.md), similar to amethyst. If you break a bud that is not finished
-growing, it will drop one <ItemLink id="certus_quartz_dust" />, unchanged by fortune. If you break a fully grown cluster, it will drop four
-<ItemLink id="certus_quartz_crystal" />s, and fortune will increase this number.
+Бутоны истинного кварца будут прорастать из [цветущих истиннокварцевых блоков](items-blocks-machines/budding_certus.md), подобно аметисту. Если вы сломаете бутон, который ещё не закончил расти, он выпадет как <ItemLink id="certus_quartz_dust" />, и на это не влияет зачарование «Удачи». Если сломать полностью выросшую друзу, выпадет четыре <ItemLink id="certus_quartz_crystal" />, а «Удача» увеличит их количество.
 
-There are 4 tiers of budding certus blocks: Flawless, Flawed, Chipped, and Damaged.
+Существует 4 уровня цветущих истиннокварцевых блоков: безупречный, повреждённый, надколотый и разрушенный.
 
 <GameScene zoom="4" background="transparent">
 <ImportStructure src="assets/assemblies/budding_blocks.snbt" />
 <IsometricCamera yaw="195" pitch="30" />
 </GameScene>
 
-Every time a bud grows by another stage, the budding block has a chance to degrade by one tier, eventually turning into
-a plain certus quartz block. They can be repaired (and new budding blocks created) by throwing the budding block (or a
-certus quartz block) in water with one or more <ItemLink id="charged_certus_quartz_crystal" />.
+Каждый раз, когда бутон переходит на следующую стадию роста, цветущий блок с некоторой вероятностью понижается на один уровень, в конечном итоге превращаясь в обычный истиннокварцевый блок. Их можно восстановить (и создать новые цветущие блоки), бросив цветущий блок (или истиннокварцевый блок) в воду с одним или несколькими <ItemLink id="charged_certus_quartz_crystal" />.
 
 <RecipeFor id="damaged_budding_quartz" />
 
-Flawless budding certus blocks will not degrade and will generate certus infinitely. However they cannot be crafted or moved
-with a pickaxe, even with silk touch. (they *can* be moved with [spatial storage](ae2-mechanics/spatial-io.md) though)
+Безупречные цветущие истиннокварцевые блоки не понижаются в уровне и будут генерировать кварц бесконечно. Однако их нельзя создать или переместить киркой, даже с «Шёлковым касанием» (хотя их *можно* переместить с помощью [пространственного хранения](ae2-mechanics/spatial-io.md)).
 
-By themselves, certus quartz buds grow very slowly. Luckily the <ItemLink id="growth_accelerator" /> massively
-accelerates this process when placed adjacent to the budding block. You should build a few of these as your first priority.
+Сами по себе бутоны истинного кварца растут очень медленно. К счастью, <ItemLink id="growth_accelerator" /> значительно ускоряет этот процесс, когда размещён рядом с цветущим блоком. Создание нескольких таких ускорителей должно быть вашим первым приоритетом.
 
 <GameScene zoom="4" background="transparent">
 <ImportStructure src="assets/assemblies/budding_certus_2.snbt" />
 <IsometricCamera yaw="195" pitch="30" />
 </GameScene>
 
-If you don't have enough quartz to also make an <ItemLink id="energy_acceptor" /> or <ItemLink id="vibration_chamber" />,
-you can make a <ItemLink id="crank" /> and stick it on the end of your accelerator.
+Если у вас недостаточно кварца для создания <ItemLink id="energy_acceptor" /> или <ItemLink id="vibration_chamber" />, вы можете сделать <ItemLink id="crank" /> и прикрепить её к концу ускорителя.
 
-Harvesting the certus automatically is [described here](example-setups/simple-certus-farm.md).
+Автоматический сбор истинного кварца описан [здесь](example-setups/simple-certus-farm.md).
 
-## Словцо о токе
+## Небольшое отступление о токе
 
-Another material you will need is Fluix, which you have already encountered in making growth accelerators. It is made by throwing charged certus, redstone, and nether quartz in water. Doing this automatically is "left as an exercise for the reader."
+Другой материал, который вам понадобится — это ток (флюекс), с которым вы уже столкнулись при создании ускорителей роста. Он создаётся путём бросания в воду заряженного истинного кварца, редстоуна и незер-кварца. Автоматизация этого процесса останется вам на домашнее задание.
 
-The <ItemLink id="charger" /> is required to produce <ItemLink id="charged_certus_quartz_crystal" />., if you haven't made one already.
+<ItemLink id="charger" /> требуется для производства <ItemLink id="charged_certus_quartz_crystal" />, если вы ещё его не сделали.
 
-## Inscribing Some Processors
+## Прессование процессоров
 
-In your looting of a meteorite, you will have found four "presses" from breaking the Mysterious Cube. These are used in the <ItemLink id="inscriber" /> to make the three types of processor.
+При разграблении метеорита вы нашли четыре пресс-формы из сломанного таинственного куба. Они используются в <ItemLink id="inscriber" /> для создания трёх типов процессоров.
 
 <ItemGrid>
   <ItemIcon id="silicon_press" />
@@ -86,82 +79,82 @@ In your looting of a meteorite, you will have found four "presses" from breaking
   <ItemIcon id="engineering_processor_press" />
 </ItemGrid>
 
-The inscriber is a sided machine, much like the vanilla furnace. Inserting from the top or bottom places items in the top or bottom slots, and inserting from the side or back inserts into the center slot. Results can be pulled from the side or back.
+Прессователь — это машина с загрузкой сбоку, похожая на печь в ванильном Minecraft. При вставке сверху или снизу предметы помещаются в верхний или нижний слоты, а при вставке сбоку или сзади — в центральный слот. Результаты можно извлекать с боков или сзади.
 
-To facilitate automation with hoppers (and possibly reduce pipe spaghetti), inscribers can be rotated with a <ItemLink id="certus_quartz_wrench" />.
+Для облегчения автоматизации с помощью воронок (и возможного уменьшения «спагетти» из труб) прессователи можно поворачивать с помощью <ItemLink id="certus_quartz_wrench" />.
 
-Produce a few of each type of processor in preparation for the next step, making a very basic ME system. Automating processor production is "[left as an exercise for the reader](example-setups/processor-automation.md)".
+Произведите несколько процессоров каждого типа в подготовке к следующему шагу — созданию очень базовой системы на ЭМ. Автоматизация производства процессоров останется вам на домашнее задание.
 
-## Matter Energy Tech: ME Networks and Storage
+## Технология энергии материи: сети и хранилища
 
-### What is ME Storage?
+### Что такое хранилище на ЭМ?
 
-Its pronounced Emm-Eee, and stands for Matter Energy.
+ЭМ означает «энергия материи».
 
-Matter Energy is the main component of Applied Energistics 2, it's like a mad scientist version of a Multi-Block chest,
-and it can revolutionize your storage situation. ME is extremely different than other storage systems in Minecraft, and
-it might take a little out of the box thinking to get used to; but once you get started vast amounts of storage in tiny
-space, and multiple access terminals are just the tip of the iceberg of what becomes possible.
+Энергия материи — это основной компонент Applied Energistics 2. Она как многоблочный сундук какого-то безумного учёного,
+и может свершить революцию в вашей системе хранения. ЭМ сильно отличается от других систем хранения в Minecraft, и
+может потребоваться немного нестандартного мышления, чтобы привыкнуть; но как только вы начнёте, огромные объёмы хранения в маленьких
+пространствах и множество терминалов доступа будут только вершиной айсберга в том, что станет для вас возможным.
 
-### What do I need to know to get started?
+### Что нужно знать для начала?
 
-First, ME Stores items inside of other items, called [Storage cells](items-blocks-machines/storage_cells.md); there are 5 tiers with ever increasing amounts of
-storage. In order to use a Storage Cell it must be placed inside either an <ItemLink id="chest" />,
-or an <ItemLink id="drive" />.
+Во-первых, ЭМ хранит предметы внутри других предметов, называемых [ячейками хранения](items-blocks-machines/storage_cells.md); существует 5 уровней, каждый из которых увеличивает объём всё больше и
+больше. Чтобы использовать ячейку хранения, её нужно поместить либо в <ItemLink id="chest" />,
+либо в <ItemLink id="drive" />.
 
-The <ItemLink id="chest" /> shows you the contents of the Cell as soon as its placed inside, and you
-can add and remove items from it as if it were a <ItemLink id="minecraft:chest" />, with the exception that the items are
-actually stored in the Storage cells, and not the <ItemLink id="chest" /> itself.
+<ItemLink id="chest" /> показывает содержимое ячейки, как только она помещена внутрь, и вы
+можете добавлять и удалять предметы из неё, как если бы это был <ItemLink id="minecraft:chest" />, за исключением того, что предметы
+фактически хранятся в ячейках хранения, а не в <ItemLink id="chest" />.
 
-The <ItemLink id="chest" /> is quite situational and limited in utility. To really
-take advantage of AE2, you need to set up an [ME Network](ae2-mechanics/me-network-connections.md).
+<ItemLink id="chest" /> — отличный способ познакомиться с концепцией ЭМ, но чтобы действительно
+воспользоваться преимуществами, вам нужно настроить [сеть на ЭМ](ae2-mechanics/me-network-connections.md).
 
-## Первая система на энергии материи
+## Ваша первая система на ЭМ
 
-Now that you have all of the basic materials and machines for Applied Energistics 2, you can make your first ME (Matter Energy) system. This will be a very basic one, no autocrafting, no logistics, just nice, simple, searchable storage.
+Теперь, когда у вас есть все основные материалы и машины для Applied Energistics 2, вы можете создать свою первую систему на ЭМ (энергии материи). Это будет очень базовая система, без автосоздания предметов, без логистики, просто удобное, простое, поисковое хранилище.
 
 <GameScene zoom="6" interactive={true}>
 <ImportStructure src="assets/assemblies/tiny_me_system.snbt" />
 
 </GameScene>
 
-*   Your ingredients list:
-    * 1x <ItemLink id="drive" />
-    * 1x <ItemLink id="terminal" /> or <ItemLink id="crafting_terminal" />
-    * 1x <ItemLink id="energy_acceptor" />
-    * A few [cables](items-blocks-machines/cables.md), either glass, covered, or smart, but not dense
-    * A few [storage cells](items-blocks-machines/storage_cells.md), recommended of the 4k variety for a good mix of
-    capacity and types (it would be more efficient to [partition](items-blocks-machines/cell_workbench.md) a mix of 4k and 1k but that's a complexity we won't go into now)
+*   Состав:
+    * 1× <ItemLink id="drive" />;
+    * 1× <ItemLink id="terminal" /> или <ItemLink id="crafting_terminal" />;
+    * 1× <ItemLink id="energy_acceptor" />;
+    * несколько [кабелей](items-blocks-machines/cables.md), либо стеклянных, покрытых, либо умных, но не плотных;
+    * несколько [ячейк хранения](items-blocks-machines/storage_cells.md), рекомендуется версия с 4000 единицами для хорошего сочетания
+    ёмкости и типов (было бы более эффективно [разделить](items-blocks-machines/cell_workbench.md) смесь версии с 4000 единицами и версии с 1000, но в такую сложность мы сейчас углубляться не будем).
 ---
-1.  Place the drive down.
-2.  The energy acceptor (and several other AE2 [devices](ae2-mechanics/devices.md)) comes in 2 modes, cube and flat. They can be switched between in a crafting grid. If your energy acceptor is a cube, place it down next to the drive. If it's a flat square, place a cable on the drive and place the acceptor on that.
-3.  Run energy into the energy acceptor with a cable/pipe/conduit from your favorite energy-generation mod.
-4.  Place a cable on top of the drive (or otherwise at eye level) and place your terminal or crafting terminal on it.
-5.  Put your storage cells into the drive
-6.  Profit
-7.  Fiddle with the terminal's settings
-8.  Bask in your ultimate power and ability
-9.  Realize that this network is, in the grand scheme, rather small
+1.  Установите стойку.
+2.  Приёмник энергии (и несколько других устройств AE2) имеет 2 режима: куб и плоский. Их можно переключать в сетке создания. Если ваш приёмник энергии — куб, установите его рядом со стойкой. Если это плоский квадрат, установите кабель на стойку и поместите приёмник на него.
+3.  Подключите энергию к приёмнику энергии с помощью кабеля/трубы/канала из вашего любимого мода на генерацию энергии.
+4.  Установите кабель на стойку (или на уровне глаз) и поместите на него ваш терминал или терминал изготовления.
+5.  Поместите ячейки хранения в стойку.
+6.  Получите выгоду.
+7.  Настройте параметры терминала.
+8.  Наслаждайтесь своей абсолютной мощью и способностями.
+9.  Поймите, что эта сеть, в общем и целом, довольно мала.
 
-### Expanding your Network
+### Расширение сети
 
-So you have some basic storage, and access to that storage, it's a good start, but you'll likely be looking to maybe
-automate some processing.
+Итак, у вас есть базовое хранилище и доступ к нему, это хороший старт, но вы, вероятно, захотите автоматизировать некоторые процессы.
 
-A great example of this is to place a <ItemLink id="export_bus" /> on the top of a furnace to
-dump in ores, and a <ItemLink id="import_bus" />
-on the bottom of the furnace to extract furnaced ores.
+Отличный пример — установить <ItemLink id="export_bus" /> на верхнюю часть печи для
+выгрузки руд, и <ItemLink id="import_bus" />
+на нижнюю часть печи для извлечения переплавленных руд.
 
-The <ItemLink id="export_bus" /> lets you export items from the network, into the attached
-inventory, while the <ItemLink id="import_bus" /> imports items from the attached inventory into
-the network.
+<ItemLink id="export_bus" /> позволяет экспортировать предметы из сети в подключенный
+инвентарь, в то время как <ItemLink id="import_bus" /> импортирует предметы из подключенного инвентаря в
+сеть.
 
-### Overcoming Limits
+### Преодоление ограничений
 
-At this point you probably getting close to 8 or so [devices](ae2-mechanics/devices.md), once you hit 9 devices you'll have to start
-managing [channels](ae2-mechanics/channels.md). Many devices but not all, require a channel to
-function.
+На этом этапе вы, вероятно, приближаетесь к 8 или около того [устройствам](ae2-mechanics/devices.md). Как только вы достигнете 9 устройств, вам придётся начать
+управлять [каналами](ae2-mechanics/channels.md). Многие устройства, но не все, требуют канала для
+функционирования.
 
-By default a network can support 8 channels, once you break this limit, you'll have to add
-an <ItemLink id="controller" /> to your network. this allows you to expand your network greatly.
-[Smart cables](items-blocks-machines/cables.md) will allow you to see how channels are routed through your network. Use them extensively when starting out to learn how channels act, or if you have a lot of redstone and glowstone.
+По умолчанию сеть может поддерживать 8 каналов; как только вы превысите этот лимит, вам придётся добавить
+<ItemLink id="controller" /> в вашу сеть. Это позволит значительно расширить сеть.
+[Умные кабели](items-blocks-machines/cables.md) позволят видеть, как каналы маршрутизируются через вашу сеть. Используйте их, чтобы понять, как работают каналы, или если у вас есть много редстоуна и светокамня.
+
