@@ -1,0 +1,23 @@
+{
+    "block.ae2things.advanced_inscriber": "Продвинутый прессователь",
+    "block.ae2things.crystal_growth": "Камера роста кристаллов",
+    "command.ae2things.getuuid_fail_notdisk": "Ошибка: указанный предмет не является диском.",
+    "command.ae2things.getuuid_fail_nouuid": "Ошибка: указанный диск пуст или не содержит UUID.",
+    "command.ae2things.getuuid_success": "UUID указанного диска: [%s]",
+    "command.ae2things.recover_fail": "Не удалось восстановить диск: UUID [%s] не существует.",
+    "command.ae2things.recover_success": "%s восстановил диск с UUID [%s].",
+    "gui.ae2things.advanced_inscriber": "Продвинутый прессователь",
+    "gui.ae2things.crystal_growth": "Камера роста кристаллов",
+    "gui.ae2things.upgrade.disk": "Диски на ЭМ",
+    "gui.ae2things.upgrade.portabledisk": "Портативные диски на ЭМ",
+    "item.ae2things.disk_drive_16k": "Диск на 16000 единиц на ЭМ",
+    "item.ae2things.disk_drive_1k": "Диск на 1000 единиц на ЭМ",
+    "item.ae2things.disk_drive_4k": "Диск на 4000 единиц на ЭМ",
+    "item.ae2things.disk_drive_64k": "Диск на 64000 единиц на ЭМ",
+    "item.ae2things.disk_housing": "Корпус диска на ЭМ",
+    "item.ae2things.portable_disk_16k": "Портативный диск на 16000 единиц на ЭМ",
+    "item.ae2things.portable_disk_1k": "Портативный диск на 1000 единиц на ЭМ",
+    "item.ae2things.portable_disk_4k": "Портативный диск на 4000 единиц на ЭМ",
+    "item.ae2things.portable_disk_64k": "Портативный диск на 64000 единиц на ЭМ",
+    "itemGroup.ae2things.item_group": "AE2 Things"
+}

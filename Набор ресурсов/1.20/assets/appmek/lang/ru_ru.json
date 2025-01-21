@@ -1,0 +1,18 @@
+{
+    "item.appmek.chemical_cell_housing": "Корпус химической ячейки на ЭМ",
+    "item.appmek.chemical_p2p_tunnel": "Химический туннель из точки в точку",
+    "item.appmek.chemical_storage_cell_16k": "Химическая ячейка хранения на 16000 единиц на ЭМ",
+    "item.appmek.chemical_storage_cell_1k": "Химическая ячейка хранения на 1000 единиц на ЭМ",
+    "item.appmek.chemical_storage_cell_256k": "Химическая ячейка хранения на 256000 единиц на ЭМ",
+    "item.appmek.chemical_storage_cell_4k": "Химическая ячейка хранения на 4000 единиц на ЭМ",
+    "item.appmek.chemical_storage_cell_64k": "Химическая ячейка хранения на 64000 единиц на ЭМ",
+    "item.appmek.creative_chemical_cell": "Химическая ячейка творческого режима на ЭМ",
+    "item.appmek.portable_chemical_storage_cell_16k": "Портативная химическая ячейка на 16000 единиц",
+    "item.appmek.portable_chemical_storage_cell_1k": "Портативная химическая ячейка на 1000 единиц",
+    "item.appmek.portable_chemical_storage_cell_256k": "Портативная химическая ячейка на 256000 единиц",
+    "item.appmek.portable_chemical_storage_cell_4k": "Портативная химическая ячейка на 4000 единиц",
+    "item.appmek.portable_chemical_storage_cell_64k": "Портативная химическая ячейка на 64000 единиц",
+    "text.appmek.chemical": "Химикат",
+    "text.appmek.creative_tab": "Applied Mekanistics",
+    "text.appmek.qio_frequency": "Частота QIO (%s)"
+}
